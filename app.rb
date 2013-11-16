@@ -110,7 +110,7 @@ module Cruby
                 to(recipients)
                 subject('[Letchworth Chorale]:' + subject)
                 body("Message from #{name} via #{this_url}\n\n" + message)
-                delivery_method, :smtp {
+                delivery_method :smtp, {
                     :address => 'smtp.sendgrid.net',
                     :port => 587,
                     :domain => 'heroku.com',
