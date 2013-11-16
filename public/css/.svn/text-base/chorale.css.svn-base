@@ -1,0 +1,173 @@
+a
+{
+    color: #006600;
+}
+a.hover
+{
+    color: #009900;
+}
+body
+{
+    color: #003300;
+    font-family: Noto Sans;
+}
+
+body td
+{
+    padding: 10px;
+}
+
+.siteheader
+{
+    font-family: Noto Serif;
+    border-bottom: 3px #006600 groove;
+}
+
+.siteheader td
+{
+    padding: 5px;
+    color: #006600;
+    vertical-align: middle;
+}
+.siteheader .title
+{
+    color: #006600;
+    font-size: 2.5em;
+}
+
+.siteheader .mobileTitle
+{
+    color: #006600;
+    font-size: 1.2em;
+}
+
+.siteheader .subtitle
+{
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.maintext
+{
+    font-family: Noto Sans;
+    border-bottom: 3px groove #006600;
+}
+
+.pictures
+{
+    border-bottom: 3px groove #006600;
+}
+.supplementary
+{
+    vertical-align: top;
+}
+.supplementary td
+{
+    list-style-image: url('/images/bullet.jpg');
+    font-size: 0.8em;
+    border-left: 1px solid #006600;
+    border-bottom: 1px dotted #006600;
+}
+
+.personName
+{
+    font-family: Noto Serif;
+    font-size: 1.2em;
+}
+
+.roleName
+{
+    font-family: Noto Serif;
+    font-size: 1.0em;
+    font-style: italic;
+}
+.concertTitle
+{
+    font-family: Noto Serif;
+    font-size: 1.2em;
+}
+
+.concertSubTitle
+{
+    font-family: Noto Serif;
+    font-size: 1.0em;
+    font-style: italic;
+}
+
+.concertDescription
+{
+    font-family: Noto Sans;
+    font-size: 0.9em;
+}
+
+.programme
+{
+    font-size: 1.0em;
+    list-style: none;
+    padding-left: 2em;
+}
+
+.programmePart
+{
+    font-size: 0.9em;
+    list-style: none;
+    padding-left: 3em;
+    font-style: italic;
+}
+
+.programmeInterval
+{
+    list-style: none;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 10em;
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+.programmeHeading
+{
+    list-style: none;
+    padding-left: 2em;
+    padding-bottom: 1em;
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+.workTitle
+{
+    font-family: Noto Serif;
+    font-size: 1.2em;
+}
+.workFooter
+{
+    font-family: Noto Serif;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+textarea
+{
+    font-family: Noto Sans;
+    color: #008000;
+}
+
+input[type=text]
+{
+    border: 0.1px #008000 solid;
+    font-family: Noto Sans;
+    color: #008000;
+}
+
+input[type=submit]
+{
+    border: none;
+    background-color: #006600;
+    color: #ffffff;
+}
+
+.error
+{
+    color: #990000;
+    font-weight: bold;
+}

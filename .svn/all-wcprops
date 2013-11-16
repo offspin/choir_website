@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/choir/!svn/ver/26/trunk/cruby/website
+END
+database.rb
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/choir/!svn/ver/23/trunk/cruby/website/database.rb
+END
+config.ru
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/choir/!svn/ver/16/trunk/cruby/website/config.ru
+END
+app.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/choir/!svn/ver/25/trunk/cruby/website/app.rb
+END

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Layout for LC website -->
+
+    <title>Letchworth Chorale</title>
+
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+    <!-- Main styles -->
+    <link rel="stylesheet" type="text/css" href="/css/chorale.css" />
+
+    <!-- Lightbox -->
+    <link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" />
+
+    <!-- jquery and lightbox plugin -->
+    <script type="text/javascript" src="/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.lightbox-0.5.min.js"></script>
+
+    <!-- lightbox for gallery object -->
+    <script type="text/javascript">
+     $(function() {
+         $('#gallery a').lightBox({
+              imageLoading: '/images/lightbox-ico-loading.gif',
+              imageBtnClose: '/images/lightbox-btn-close.gif',
+              imageBtnPrev: '/images/lightbox-btn-prev.gif',
+              imageBtnNext: '/images/lightbox-btn-next.gif'
+             });
+     });
+    </script>
+
+</head>
+<body>
+    <!-- Header -->
+    <div class="siteheader">
+
+        <table width="100%">
+
+            <tr>
+                <td width="200">
+                    <img src="/images/choir_logo.jpg" />
+                </td>
+                <% if @is_mobile && !@is_ipad %>
+                    <td class="mobileTitle">
+                <% else %>
+                    <td class="title">
+                <% end %>
+                    Letchworth Chorale
+                </td>
+            </tr>
+            <tr>
+                <td class="subtitle" colspan="2" align="center">the chamber choir in North Hertfordshire
+                    </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Body -->
+    <div class="sitebody">
+
+    <!-- Content + nav -->
+    <table width="100%">
+        <tr>
+
+            <!-- Page-specific section start -->
+
+            <%= yield() %>
+
+            <!-- Page-specific section end -->
+
+            <!-- sidebar + nav -->
+
+            <td class="supplementary">
+                <table width="100%">
+
+                    <% if @music_roles.count > 0 %>
+                        <tr><td><strong>Musical leaders:</strong>
+                        <ul>
+
+                        <% @music_roles.each do |r| %>
+
+                            <li><%= r['role_name'] %>: <%= r['htm_person_name'] %> </li>
+
+                        <% end %>
+
+                       </ul>
+
+                       </td></tr>
+
+                    <% end %>
+
+
+                    <% if @recent_works.count > 0 %>
+
+                        <tr><td><strong>Recently performed works:</strong>
+                        <ul>
+
+                            <% @recent_works.each do |w| %>
+                                <li><%= w['htm_description'] %></li>
+                            <% end %>
+
+                        </ul>
+                        </td></tr>
+
+                    <% end %>
+
+                    <% if @next_concerts.count > 0 %>
+
+                       <tr><td><strong>Next concert: </strong>
+                       
+                       <%= @next_concerts[0]['htm_long_date'] %> 
+
+                       <% if @next_concerts[0]['htm_venue_name'] %>
+                           <br/> 
+                           <strong>Venue: </strong>
+                           <%= @next_concerts[0]['htm_venue_name'] %>
+                       <% end %>
+
+                        <% if @next_concerts[0]['billed_programme'].count > 0 %>
+                            <ul>
+                            <% (@next_concerts[0]['billed_programme']).each do |p| %>
+                                <li>
+                                <%= p['htm_description'] %>
+                                </li>
+                            <% end %>
+                            </ul>
+                        <% end %>
+
+                        </td></tr>
+
+                    <% end %>
+
+                    <% if @next_concerts.count > 1 %>
+
+                        <tr><td><strong>Future concert dates (provisional):</strong>
+                        <ul>
+
+                            <% @next_concerts[1..-1].each do |nc| %>
+                                <li>
+                                <%= nc['long_date'] %>
+                                </li>
+                            <% end %>
+
+                        </ul>
+
+                        </tr></td>
+
+                    <% end %>
+
+                    <tr><td>
+                        <img src="/images/facebook.jpg" alt="Facebook" align="middle" />
+                        <a href="https://www.facebook.com/LetchworthChorale" target="_blank">
+                            Find us on Facebook
+                        </a> or <a href="/contact">Send us a message</a>
+                    </td></tr>
+
+                    <tr><td><a href="/">Home Page</a></td></tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    </div>
+
+</body>
+</html>
+

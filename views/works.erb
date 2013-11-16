@@ -1,0 +1,30 @@
+<td width="60%">
+    <table width="100%">
+        <tr>
+            <td class="pictures" align="center">
+                <table>
+                    <tr>
+                        <% @work['media'].each do |m| %>
+                            <td>
+                            <% if m['media_type'] == 'image' %>
+                                    <%= '<img src="' +  m['thumb_location'] + '" title="' + m['caption'] + '">' %>
+                            <% elsif m['media_type'] == 'spotify' %>
+                                <%= m['location'] %>
+                            <% end %>
+                            </td>
+                        <% end %>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="workTitle"><%= @work['title'] %></td>
+        </tr>
+         
+        <tr>
+            <td class="maintext">
+                <%= @work['description'] %>
+           </td>
+       </tr>
+    </table>
+</td>
