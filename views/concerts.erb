@@ -19,6 +19,24 @@
             <td align="center" class="concertTitle"><%= @concert['title'] %></td>
         </tr>
 
+        <% if @concert['long_date'] != nil %>
+            <tr><td class="concertInfo">
+            <%= @concert['long_date'] %>
+            </td></tr>
+        <% end %>
+
+        <% if @concert['venue_name'] != nil %>
+            <tr><td class="concertInfo">
+            <%= @concert['htm_venue_name'] %>
+            </td></tr>
+        <% end %>
+
+        <% if @concert['pricing'] != nil %>
+            <tr><td class="concertInfo">
+            <%= @concert['pricing'] %>
+            </td></tr>
+        <% end %>
+
         <% if @concert['description'] != nil %>
             <tr><td class="concertDescription">
             <%= @concert['description'] %>
@@ -29,7 +47,7 @@
             <td class="maintext">
 
                <% if @concert['programme'].count > 0 %>
-                   <p align="center" class="concertSubTitle">Programme</p>
+                   <p align="center" class="concertTitle">Programme</p>
                    <ul>
                    <% @concert['programme'].each do |pr| %>
 

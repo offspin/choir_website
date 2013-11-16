@@ -94,6 +94,14 @@ body td
     font-style: italic;
 }
 
+.concertInfo
+{
+    font-family: Noto Sans;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+}
+
 .concertDescription
 {
     font-family: Noto Sans;

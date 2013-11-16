@@ -229,6 +229,14 @@ module Cruby
 
                 @concert = concerts[0]
 
+                @concert['long_date'] = DateTime.parse(@concert['performed']).strftime('%A, %d %B %Y at %l:%M %P')
+                @concert['htm_venue_name'] = @concert['venue_name']
+
+                if @concert['venue_map_url']
+                    @concert['htm_venue_name'] = 
+                        "<a href=\"#{@concert['venue_map_url']}\" target=\"_blank\">#{@concert['venue_name']}</a>"
+                end
+
                 programme = THE_DB.get_programme id
 
                 programme.each do |pr|

@@ -195,6 +195,8 @@ module Cruby
             sql = <<-EOS
                 select concert.id as concert_id
                      , concert.title
+                     , concert.sub_title
+                     , concert.pricing
                      , concert.description
                      , concert.performed
                      , venue.name as venue_name
