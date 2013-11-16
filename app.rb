@@ -110,7 +110,16 @@ module Cruby
                 to(recipients)
                 subject('[Letchworth Chorale]:' + subject)
                 body("Message from #{name} via #{this_url}\n\n" + message)
-                delivery_method :sendmail
+                delivery_method, :smtp {
+                    :address => 'smtp.sendgrid.net',
+                    :port => 587,
+                    :domain => 'heroku.com',
+                    :username => ENV['SENDGRID_USERNAME'],
+                    :password => ENV['SENDGRID_PASSWORD'],
+                    :authentication => 'plain',
+                    :enable_starttls_auto => true
+                }
+
             end
 
 
