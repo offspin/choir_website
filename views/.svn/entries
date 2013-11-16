@@ -1,7 +1,7 @@
 10
 
 dir
-26
+29
 https://edmonds.offspin.com/svn/choir/trunk/cruby/website/views
 https://edmonds.offspin.com/svn/choir
 
@@ -25,40 +25,6 @@ nsykes
 
 
 5b32a011-cc7e-314b-b91c-ec42ae236e0e
-
-layout.erb
-file
-
-
-
-
-2013-11-16T11:36:58.234244Z
-a34645379597f14e04b65ccffab71715
-2013-11-07T18:44:21.640724Z
-17
-nsykes
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5120
 
 concerts.erb
 file
@@ -263,4 +229,38 @@ nsykes
 
 
 4134
+
+layout.erb
+file
+
+
+
+
+2013-11-16T11:36:58.234244Z
+a34645379597f14e04b65ccffab71715
+2013-11-07T18:44:21.640724Z
+17
+nsykes
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5120
 
