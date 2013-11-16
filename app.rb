@@ -114,7 +114,7 @@ module Cruby
                     :address => 'smtp.sendgrid.net',
                     :port => 587,
                     :domain => 'heroku.com',
-                    :username => ENV['SENDGRID_USERNAME'],
+                    :user_name => ENV['SENDGRID_USERNAME'],
                     :password => ENV['SENDGRID_PASSWORD'],
                     :authentication => :plain,
                     :enable_starttls_auto => true
