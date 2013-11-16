@@ -116,7 +116,7 @@ module Cruby
                     :domain => 'heroku.com',
                     :username => ENV['SENDGRID_USERNAME'],
                     :password => ENV['SENDGRID_PASSWORD'],
-                    :authentication => 'plain',
+                    :authentication => :plain,
                     :enable_starttls_auto => true
                 }
 
