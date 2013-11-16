@@ -17,6 +17,10 @@ module Cruby
 
         before do
 
+            if request.host =~ /herokuapp.com/
+                redirect 'http://www.letchworth-chorale.org.uk', 301
+            end
+
             user_agent = request.env['HTTP_USER_AGENT']
 
             @is_mobile = (user_agent =~ /mobile/i)
