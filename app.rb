@@ -229,7 +229,14 @@ module Cruby
 
                 @concert = concerts[0]
 
-                @concert['long_date'] = DateTime.parse(@concert['performed']).strftime('%A, %d %B %Y at %l:%M %P')
+                @concert_performed = DateTime.parse(@concert['performed'])
+
+                @concert['long_date'] = @concert_performed.strftime('%A, %d %B %Y')
+
+                if @concert_performed.hour > 0 
+                    @concert['long_date'] += @concert_performed.strftime(' at %l:%M %P')
+                end
+
                 @concert['htm_venue_name'] = @concert['venue_name']
 
                 if @concert['venue_map_url']

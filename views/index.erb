@@ -63,13 +63,19 @@
                        
                         <% if @next_concerts.count > 0 %>
                            <p> At the moment we are rehearsing for our 
+                            <% @next_concert_performed = DateTime.parse(@next_concerts[0]['performed']) %>
                             <%=
-                                "<a href=\"/concerts/#{@next_concerts[0]['concert_id']}\">" + 
-                                "#{@next_concerts[0]['title']}</a>" +
-                                ", which takes place on " +
-                                DateTime.parse((@next_concerts[0]['performed'])).strftime('%A, %d %B %Y at %l:%M %P') + 
-                                ".</p>"
-                             %>
+                                    "<a href=\"/concerts/#{@next_concerts[0]['concert_id']}\">" + 
+                                    "#{@next_concerts[0]['title']}</a>" +
+                                    ", which takes place on " +
+                                    @next_concert_performed.strftime('%A, %d %B %Y') 
+                            %>
+
+                            <% if @next_concert_performed.hour > 0 %>
+                                <%= @next_concert_performed.strftime(' at %l:%M %P') %>
+                            <% end %>
+                            <%= '.' %>
+
                         <% end %>
 
                             <p>
