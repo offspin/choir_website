@@ -23,7 +23,7 @@ module Cruby
 
             user_agent = request.env['HTTP_USER_AGENT']
 
-            @is_mobile = (user_agent =~ /mobile/i)
+            @is_mobile = (user_agent =~ /mobile/i) || (user_agent =~ /android/i)
             @is_ipad = (user_agent =~ /ipad/i)
             @use_recaptcha = (ENV['RC_PUBLIC_KEY'] != nil)
 
