@@ -67,6 +67,7 @@
                             <%=
                                     "<a href=\"/concerts/#{@next_concerts[0]['concert_id']}\">" + 
                                     "#{@next_concerts[0]['title']}</a>" +
+                                    ((@next_concerts[0]['title'] =~ /\bconcert\b/i) == nil ? ' concert' : '') +
                                     ", which takes place on " +
                                     @next_concert_performed.strftime('%A, %d %B %Y') 
                             %>
