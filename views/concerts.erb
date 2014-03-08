@@ -19,6 +19,13 @@
             <td align="center" class="concertTitle"><%= @concert['title'] %></td>
         </tr>
 
+        <% if @concert['sub_title'] != nil %>
+            <tr>
+                <td align="center" class="concertSubTitle"><%= @concert['sub_title'] %></td>
+            </tr>
+        <% end %>
+               
+
         <% if @concert['long_date'] != nil %>
             <tr><td class="concertInfo">
             <%= @concert['long_date'] %>
