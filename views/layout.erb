@@ -136,12 +136,21 @@
 
                     <% if @next_concerts.count > 1 %>
 
-                        <tr><td><strong>Future concert dates (provisional):</strong>
+                        <tr><td><strong>Future concerts (provisional):</strong>
                         <ul>
 
                             <% @next_concerts[1..-1].each do |nc| %>
                                 <li>
                                 <%= nc['long_date'] %>
+                                <% if nc['billed_programme'].count > 0 %>
+                                    <ul>
+                                    <% (nc['billed_programme']).each do |p| %>
+                                        <li>
+                                        <%= p['htm_description'] %>
+                                        </li>
+                                    <% end %>
+                                    </ul>
+                                <% end %>
                                 </li>
                             <% end %>
 
