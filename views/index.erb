@@ -24,6 +24,15 @@
                             Photos of choir by <a href="http://lephotography.zenfolio.com" target="_blank">Letchworth Events Photography</a>
                         </td>
                     </tr>
+
+                    <% if @news_flash != nil %>
+                        <tr>
+                            <td class="newsFlash">
+                                <%= @news_flash %>
+                            </td>
+                        </tr>
+                    <% end %>
+
                     <tr>
                         <td class="maintext">
                             <p>

@@ -289,6 +289,17 @@ module Cruby
             res = (@connection.exec sql, [name]).to_a
         end
 
+        def get_news_flash
+
+            sql = <<-EOS
+                select news_flash
+                from   news_flash
+                where  current_timestamp between from_date and to_date
+                order by from_date;
+            EOS
+
+            res = (@connection.exec sql).to_a
+        end
 
     end
 

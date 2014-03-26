@@ -37,6 +37,7 @@ module Cruby
         end
 
         get '/' do
+            @news_flash = get_news_flash
             erb :index
         end
 
@@ -307,6 +308,18 @@ module Cruby
                 return nil
             else
                 return (configs[0]['config_string'])
+            end
+
+        end
+
+        def get_news_flash
+
+            flashes = THE_DB.get_news_flash
+
+            if flashes.count == 0
+                return nil
+            else
+                return (flashes[0]['news_flash'])
             end
 
         end
