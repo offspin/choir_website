@@ -53,9 +53,26 @@ module Cruby
 
         end
 
-        get '/concerts/:id' do
+        get %r{/concerts/([0-9]+)} do |id|
 
-            get_concert(params[:id])
+            get_concert(id)
+
+            if @concert
+
+                if @concert['friendly_url']
+                    redirect url("/concerts/#{@concert['friendly_url']}")
+                end
+
+                erb :concerts
+            else
+                redirect url('/')
+            end
+
+        end
+
+        get %r{/concerts/([a-z]+[a-z0-9\-]*)} do |furl|
+
+            get_concert_by_friendly_url(furl)
 
             if @concert
                 erb :concerts
@@ -226,6 +243,7 @@ module Cruby
 
             concerts = THE_DB.get_concert id
 
+
             if concerts.count > 0
 
                 @concert = concerts[0]
@@ -267,6 +285,14 @@ module Cruby
 
 
             end
+
+        end
+
+        def get_concert_by_friendly_url(furl)
+
+            concert_id = THE_DB.get_concert_id_by_friendly_url(furl)
+
+            get_concert concert_id
 
         end
 

@@ -199,6 +199,7 @@ module Cruby
                      , concert.pricing
                      , concert.description
                      , concert.performed
+                     , concert.friendly_url
                      , venue.name as venue_name
                      , venue.map_url as venue_map_url
                 from concert
@@ -208,6 +209,19 @@ module Cruby
             EOS
 
             res = (@connection.exec sql, [ id ]).to_a
+
+        end
+
+        def get_concert_id_by_friendly_url(furl)
+
+            sql = <<-EOS
+                select concert.id from concert
+                where friendly_url = $1;
+            EOS
+
+            res = (@connection.exec sql, [furl]).to_a
+
+            return res.length == 0 ? nil : res[0]['id']
 
         end
 
