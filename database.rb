@@ -315,6 +315,30 @@ module Cruby
             res = (@connection.exec sql).to_a
         end
 
+        def get_next_rehearsals(num)
+
+            sql = <<-EOS
+                with rehearsal_series as
+                ( select generate_series(from_date, to_date, '7 day'::interval) 
+                       + start_time as rs_date_time,
+                       venue_id
+                from rehearsal )
+                select rehearsal_series.rs_date_time
+                     , venue.name as venue_name
+                     , venue.map_url as venue_map_url
+                from rehearsal_series
+                 left join venue 
+                  on rehearsal_series.venue_id = venue.id
+                where rehearsal_series.rs_date_time > current_date
+                order by rehearsal_series.rs_date_time
+                limit $1;
+            EOS
+
+            res = (@connection.exec sql, [num]).to_a
+
+        end
+
+
     end
 
 end

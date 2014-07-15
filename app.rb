@@ -2,6 +2,7 @@ module Cruby
 
     RECENT_WORKS_COUNT = 4
     RECENT_CONCERTS_COUNT = 3
+    RECENT_REHEARSALS_COUNT = 1
 
 
     class App < Sinatra::Base
@@ -30,6 +31,7 @@ module Cruby
             get_music_roles
             get_recent_works
             get_next_concerts
+            get_next_rehearsals
             
             response.headers['Cache-Control'] = 'no-cache'
 
@@ -348,6 +350,22 @@ module Cruby
                 return (flashes[0]['news_flash'])
             end
 
+        end
+
+        def get_next_rehearsals
+
+            @next_rehearsals = THE_DB.get_next_rehearsals RECENT_REHEARSALS_COUNT
+
+            @next_rehearsals.each do |r|
+                r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
+                r['htm_venue_name'] = r['venue_name']
+
+                if r['venue_map_url']
+                    r['htm_venue_name'] = 
+                        "<a href=\"#{r['venue_map_url']}\" target=\"_blank\">#{r['venue_name']}</a>"
+                end
+
+            end
         end
 
     end
