@@ -194,3 +194,37 @@ input[type=submit]
     font-size: 0.7em;
     text-align: center;
 }
+
+.editMenu
+{
+    text-align: center;
+    font-size: 1.0em;
+}
+
+table.editor
+{
+    border-collapse: collapse;
+}
+
+td.editor, th.editor
+{
+    margin: 0px;
+    border: 1px #008000 solid;
+    font-size: 0.8em;
+}
+
+th.editor
+{
+    background-color: #ccffcc;
+}
+
+input.editor
+{
+    margin: 5px;
+    font-size: 0.9em;
+}
+
+div.editSection
+{
+    border: 1px #ddffdd solid;
+}

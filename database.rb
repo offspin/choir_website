@@ -306,13 +306,65 @@ module Cruby
         def get_news_flash
 
             sql = <<-EOS
-                select news_flash
+                select id, news_flash, from_date, to_date
                 from   news_flash
                 where  current_timestamp between from_date and to_date
                 order by from_date;
             EOS
 
             res = (@connection.exec sql).to_a
+        end
+
+        def get_all_news_flash
+
+            sql = <<-EOS
+                select id, news_flash, from_date, to_date
+                from   news_flash
+                where  to_date >= current_timestamp - interval '1 year'
+                order by from_date desc;
+            EOS
+
+            res = (@connection.exec sql).to_a
+        end
+
+        def create_news_flash
+
+            sql = <<-EOS
+                insert into news_flash
+                (from_date, to_date, news_flash)
+                values
+                (current_timestamp - interval '1 day',
+                 current_timestamp - interval '1 day' + interval '1 minute',
+                 'News flash');
+            EOS
+
+            @connection.exec sql
+
+        end
+
+        def get_news_flash_by_id(id)
+
+            sql = <<-EOS
+                select id, news_flash, from_date, to_date
+                from   news_flash
+                where  id = $1;
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+        end
+
+        def update_news_flash(id, from_date, to_date, news_flash)
+            
+            sql = <<-EOS
+                update news_flash
+                set from_date = $2
+                  , to_date = $3
+                  , news_flash = $4
+                where id = $1;
+            EOS
+
+            @connection.exec sql, [id, from_date, to_date, news_flash]
+
         end
 
         def get_next_rehearsals(num)
@@ -335,6 +387,20 @@ module Cruby
             EOS
 
             res = (@connection.exec sql, [num]).to_a
+
+        end
+
+        def get_user(name)
+
+            sql = <<-EOS
+                select name
+                     , full_name
+                     , password_hash
+                 from  user_of_system
+                where  name = $1;
+            EOS
+
+            res = (@connection.exec sql, [name]).to_a
 
         end
 

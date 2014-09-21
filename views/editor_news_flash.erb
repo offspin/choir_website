@@ -1,0 +1,51 @@
+<form method="post">
+
+    <div class="error"> <%= flash[:error] %> </div>
+
+    <div class="editSection">
+        <input type="hidden" id="id" name="id"
+            value="<%=@news_flash['id']%>"/>
+
+        <label for="from_date">Displayed from:</label>
+        <input class="editor" type="text" id="from_date" name="from_date"
+            value="<%=flash[:from_date] ? flash[:from_date] : (DateTime.parse(@news_flash['from_date'])).strftime('%d/%m/%Y %H:%M')%>"/>
+
+        <label for="to_date">Displayed until:</label>
+        <input class="editor" type="text" id="to_date" name="to_date"
+            value="<%=flash[:to_date] ? flash[:to_date] : (DateTime.parse(@news_flash['to_date'])).strftime('%d/%m/%Y %H:%M')%>"/>
+    </div>
+
+    <div class="editSection">
+        <label for="news_flash">Details:</label><br/>
+
+        <textarea id="news_flash" name="news_flash" rows="6" cols="80">
+            <%=flash[:news_flash] ? flash[:news_flash] : @news_flash['news_flash']%>
+        </textarea>
+
+        <script type="text/javascript">
+                CKEDITOR.replace('news_flash',
+                        {toolbarGroups: [ 
+                            {name: 'clipboard', groups:['clipboard','undo']},
+                            {name: 'basicstyles', groups:['basicstyles','cleanup']},
+                            {name: 'paragraph', groups:['list','indent','blocks','align','bidi']},
+                            {name: 'links'},
+                            {name: 'insert'},
+                            {name: 'document', groups:['mode']}
+
+                        ]});
+        </script>
+    </div>
+
+    <div class="editSection">
+        <table width="100%">
+            <tr>
+                <td width="50%" align="right">
+                    <input type="submit" id="save" name="save" value="Save Changes"/>
+                </td>
+                <td width="50%" align="left">
+                    <input type="submit" id="back" name="back" value="Back"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

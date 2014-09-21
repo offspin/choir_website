@@ -1,0 +1,38 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Display From</th>
+            <th class="editor">Display Until</th>
+            <th class="editor">Details</th>
+        </tr>
+        <% @news_flashes.each do |n| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/news_flash/#{n['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(n['from_date'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= (DateTime.parse(n['to_date'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= n['news_flash'] %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+    This page allows you to edit the news flash displayed at the top of the home page.
+    </p>
+    <p>
+    <a href="/editor/news/new">Click here</a> to create a new news flash. This will appear at the top of the list so you can edit it. <br/>
+    News flashes will only be displayed on the website between the "from" and "until" dates specified.
+    </p>
+    <p>
+    To remove a news flash from the list, edit it and change the "until" date to be more than a year ago.
+    </p>
+</div>
+

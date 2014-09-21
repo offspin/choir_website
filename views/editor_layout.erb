@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Layout for LC website -->
+
+    <title>Letchworth Chorale</title>
+
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+    <!-- Main styles -->
+    <link rel="stylesheet" type="text/css" href="/css/chorale.css" />
+
+    <!-- jquery and lightbox plugin -->
+    <script type="text/javascript" src="/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/scripts/ckeditor/ckeditor.js"></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <div class="siteheader">
+
+        <table width="100%">
+
+            <tr>
+                <td width="200">
+                    <a href="/"><img src="/images/LCLogo2013_200.png" /></a>
+                </td>
+                <% if @is_mobile && !@is_ipad %>
+                    <td class="mobileTitle">
+                <% else %>
+                    <td class="title">
+                <% end %>
+                    Letchworth Chorale : Site Editor
+                </td>
+            </tr>
+            <tr>
+                <td class="subtitle" colspan="2" align="center">the chamber choir in North Hertfordshire
+                    </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Body -->
+    <div class="sitebody">
+
+    <!-- Content + nav -->
+    <table width="100%">
+        <tr>
+
+            <!-- Page-specific section start -->
+
+            <%= yield() %>
+
+            <!-- Page-specific section end -->
+
+            <!-- sidebar + nav -->
+
+            <td class="supplementary">
+                <table width="100%">
+
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    </div>
+
+</body>
+</html>
+
