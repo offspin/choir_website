@@ -116,9 +116,8 @@ module Cruby
                  and p.is_interval = 'f'::boolean
                  and c.performed < current_date
                  and c.performed >= current_date - interval '1 year'
-                 order by 
-                    case when p.work_id is not null then 100 else 0 end
-                   + p.billing_order desc
+                 and p.work_id is not null
+                 order by c.performed desc, coalesce(p.billing_order, 3)
                  limit $1;
             EOS
 
