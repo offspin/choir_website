@@ -1,15 +1,15 @@
 a:link, a:visited
 {
-    color: #000000;
+    color: #006600;
     background-color: #f8fcf8;
 }
 a:hover
 {
-    color: #000000;
+    color: #00c000;
 }
 body
 {
-    color: #000000;
+    color: #003300;
     font-family: Noto Sans;
 }
 
@@ -21,24 +21,24 @@ body td
 .siteheader
 {
     font-family: Noto Serif;
-    border-bottom: 3px #000000 groove;
+    border-bottom: 3px #006600 groove;
 }
 
 .siteheader td
 {
     padding: 5px;
-    color: #000000;
+    color: #006600;
     vertical-align: middle;
 }
 .siteheader .title
 {
-    color: #000000;
+    color: #006600;
     font-size: 2.5em;
 }
 
 .siteheader .mobileTitle
 {
-    color: #000000;
+    color: #006600;
     font-size: 1.2em;
 }
 
@@ -51,12 +51,12 @@ body td
 .maintext
 {
     font-family: Noto Sans;
-    border-bottom: 3px groove #000000;
+    border-bottom: 3px groove #006600;
 }
 
 .pictures
 {
-    border-bottom: 3px groove #000000;
+    border-bottom: 3px groove #006600;
 }
 .supplementary
 {
@@ -66,8 +66,8 @@ body td
 {
     list-style-image: url('/images/bullet.jpg');
     font-size: 0.8em;
-    border-left: 1px solid #000000;
-    border-bottom: 1px dotted #000000;
+    border-left: 1px solid #006600;
+    border-bottom: 1px dotted #006600;
 }
 
 .personName
@@ -157,27 +157,27 @@ body td
 
 .newsFlash
 {
-    color: #000000;
+    color: #600000;
     font-weight: bold;
 }
 
 textarea
 {
     font-family: Noto Sans;
-    color: #000000;
+    color: #008000;
 }
 
 input[type=text]
 {
-    border: 0.1px #000000 solid;
+    border: 0.1px #008000 solid;
     font-family: Noto Sans;
-    color: #000000;
+    color: #008000;
 }
 
 input[type=submit]
 {
     border: none;
-    background-color: #000000;
+    background-color: #006600;
     color: #ffffff;
 }
 
@@ -209,7 +209,7 @@ table.editor
 td.editor, th.editor
 {
     margin: 0px;
-    border: 1px #000000 solid;
+    border: 1px #008000 solid;
     font-size: 0.8em;
 }
 
