@@ -7,8 +7,13 @@ module Cruby
         attr_accessor :connection
 
         def initialize
+            reconnect
+        end
+
+        def reconnect
             @connection = self.class.connect
         end
+
 
         def self.connect
 

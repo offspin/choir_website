@@ -28,6 +28,10 @@ module Cruby
             @is_ipad = (user_agent =~ /ipad/i)
             @use_recaptcha = (ENV['RC_PUBLIC_KEY'] != nil)
 
+            if THE_DB.connection.status != PGconn::CONNECTION_OK
+                THE_DB.reconnect
+            end
+
             get_music_roles
             get_recent_works
             get_next_concerts
