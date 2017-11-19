@@ -23,7 +23,7 @@ module Cruby
             end
            
             if ENV['RACK_ENV'] != 'development'  
-                if request.headers['X-Forwarded-Proto'] == 'http'
+                if !request.secure?
                     redirect ['https://', request.host, request.url].join('')
                 end
             end
