@@ -18,8 +18,14 @@ module Cruby
 
         before do
 
-            if request.host =~ /herokuapp.com/
-                redirect 'http://www.letchworth-chorale.org.uk', 301
+            if request.host =~ /herokudns.com/
+                redirect 'https://www.letchworth-chorale.org.uk', 301
+            end
+           
+            if ENV['RACK_ENV'] != 'development'  
+                if request.headers['X-Forwarded-Proto'] == 'http'
+                    redirect ['https://', request.host, request.url].join('')
+                end
             end
 
             user_agent = request.env['HTTP_USER_AGENT']
