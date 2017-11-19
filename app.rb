@@ -23,9 +23,7 @@ module Cruby
             end
            
             if ENV['RACK_ENV'] != 'development'  
-                if !request.secure?
-                    redirect ['https://', request.host, request.url].join('')
-                end
+                redirect request.url.sub('http://', 'https://') unless request.secure?
             end
 
             user_agent = request.env['HTTP_USER_AGENT']
