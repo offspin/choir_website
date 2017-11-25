@@ -48,6 +48,7 @@ module Cruby
 
         get '/' do
             @news_flash = get_news_flash
+            @home_text = get_current_text_block 'HOME'
             erb :index
         end
 
@@ -376,6 +377,12 @@ module Cruby
             end
         end
 
+        def get_current_text_block (label)
+            rows = THE_DB.get_current_text_block label
+            content = rows.length == 0 ? '' : rows[0]['content']
+        end
+
+        
     end
 
 end

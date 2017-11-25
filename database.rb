@@ -19,12 +19,12 @@ module Cruby
 
             if ENV['DATABASE_URL']
                 dbu = URI.parse ENV['DATABASE_URL']
-                db = PGconn.new :host => dbu.host,
+                db = PG::Connection.new :host => dbu.host,
                     :user => dbu.user,
                     :password => dbu.password,
                     :dbname => dbu.path[1..-1]
             else
-                db = PGconn.new :dbname => 'cruby'
+                db = PG::Connection.new :dbname => 'cruby'
             end
 
         end
@@ -408,6 +408,125 @@ module Cruby
 
         end
 
+        def get_all_text_block(label)
+
+            sql = <<-EOS
+                select label
+                     , id
+                     , updated
+                     , updated_by
+                     , is_current
+                     , content
+                 from  text_block
+                where  label = $1
+                order by is_current desc, updated desc;
+            EOS
+
+            res = (@connection.exec sql, [label]).to_a
+
+        end
+
+        def create_text_block(label, content, updated_by)
+
+            sql = <<-EOS
+                insert into text_block
+                (label, content, updated_by)
+                values ($1, $2, $3);
+            EOS
+
+            @connection.exec sql, [label, content, updated_by]
+
+        end
+
+        def create_text_block_from_current(label, updated_by)
+
+            sql = <<-EOS
+                insert into text_block
+                (label, content, updated_by)
+                select label
+                     , content
+                     , $2
+                  from text_block
+                 where label = $1
+                   and is_current = 't'::boolean;
+            EOS
+
+            @connection.exec sql, [label, updated_by]
+
+        end 
+                
+
+        def make_text_block_current(id)
+
+            sql = <<-EOS
+                update text_block
+                   set is_current = 't'::boolean
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id]
+
+            sql = <<-EOS
+                update text_block
+                   set is_current = 'f'::boolean
+                 where id <> $1 
+                   and label = (select label from text_block where id = $1)
+                   and is_current = 't'::boolean;
+            EOS
+
+            @connection.exec sql, [id]
+
+        end
+
+        def update_text_block(id, content, updated_by)
+
+            sql = <<-EOS
+                update text_block
+                   set content = $2
+                     , updated = CURRENT_TIMESTAMP
+                     , updated_by = $3
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id, content, updated_by]
+
+        end
+
+        def get_current_text_block (label)
+
+            sql = <<-EOS
+                select content
+                  from text_block
+                 where label = $1
+                   and is_current = 't'::boolean;
+            EOS
+
+            res = (@connection.exec sql, [label]).to_a
+
+        end
+
+        def delete_text_block (id)
+
+            sql = <<-EOS
+                delete from text_block
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id]
+
+        end
+
+        def get_text_block_by_id (id)
+
+            sql = <<-EOS
+               select content, is_current
+                 from text_block
+                where id = $1;
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+
+        end
 
     end
 

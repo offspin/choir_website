@@ -30,41 +30,8 @@
 
                     <tr>
                         <td class="maintext">
-                            <p>
-                                The <strong>Letchworth Chorale</strong> is an amateur chamber style choir. 
-                        We perform a wide range of choral music, including classical and modern works.
-                       
-                            </p>
+                        <%= @home_text %>
 
-                            <p>
-                                Performing in and around Letchworth since 1982, we pride ourselves on being 
-                        a friendly choir and we are always delighted to welcome new members. We strive to achieve 
-                        high standards of performance, but also to enjoy ourselves in the process. 
-                       
-                            </p>
-
-                            <p>
-                                We hold rehearsals on Mondays from 7:30 to 9:30 pm at the 
-                       
-                                <a href="http://maps.google.co.uk/maps?q=Central+Methodist+Church,+Letchworth+Garden+City&hl=en&ll=51.975959,-0.224061&spn=0.008195,0.019805&sll=53.800651,-4.064941&sspn=16.764146,40.561523&vpsrc=0&t=m&z=16&iwloc=A" target="_blank"><strong>Central Methodist Church, Norton Way South, Letchworth</strong></a>. 
-                        We have breaks roughly around school terms.
-                       
-                            </p>
-
-                            <p>
-                                Formal voice training is not required, and we do not hold auditions for 
-                        membership, but you must be able to read music sufficiently to follow a 
-                        score, and sing in tune.
-                       
-                            </p>
-
-                            <p>
-                            If you'd like to join, <strong>please let us know via the <a href="/contact">contact form</a></strong>,
-                        or just turn up to one of our Monday rehearsals. We start at 7:30 so if you can
-                        get there a little before that, there will be time for one of our members to welcome you before 
-                        the rehearsal gets under way.
-                        </p>
-                       
                         <% if @next_rehearsals.count > 0 %>
                             <% if DateTime.parse(@next_rehearsals[0]['rs_date_time']) <= DateTime.now + 14 %>
                                 <% if @next_concerts.count > 0 %>
@@ -87,11 +54,6 @@
                             <% end %>
                         <% end %>
 
-                            <p>
-                                <strong>Letchworth Chorale</strong> is supported by the
-                       
-                                <a href="http://directory.hertsdirect.org/kb5/hertfordshire/directory/service.page?id=R-CiyoDZRX0"
-                                    target="_blank"><strong>Arts Council For North Hertfordshire</strong></a>.
                     </td>
                     </tr>
                 </table>
