@@ -38,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
 
         config.contentsCss = [
             CKEDITOR.getUrl('contents.css'),
-            'http://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic'
+            'https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic'
                 ];
 
         config.font_names = config.font_names + ';Noto Sans;';
