@@ -10,11 +10,13 @@ module Cruby
         enable :sessions, :logging, :raise_errors
         register Sinatra::Flash
 
-        use Rack::Recaptcha, 
-            :public_key => ENV['RC_PUBLIC_KEY'],
-            :private_key => ENV['RC_PRIVATE_KEY']
+        Recaptcha.configure do |conf|
+            conf.site_key = ENV['RECAPTCHA_SITE_KEY']
+            conf.secret_key = ENV['RECAPTCHA_SECRET_KEY']
+        end 
 
-        helpers Rack::Recaptcha::Helpers
+        include Recaptcha::ClientHelper
+        include Recaptcha::Verify
 
         before do
 
@@ -30,7 +32,8 @@ module Cruby
 
             @is_mobile = (user_agent =~ /mobile/i) || (user_agent =~ /android/i)
             @is_ipad = (user_agent =~ /ipad/i)
-            @use_recaptcha = (ENV['RC_PUBLIC_KEY'] != nil)
+            @use_recaptcha = (ENV['RECAPTCHA_SITE_KEY'] != nil)
+            
 
             if THE_DB.connection.status != PGconn::CONNECTION_OK
                 THE_DB.reconnect
@@ -125,7 +128,7 @@ module Cruby
                 error_message = 'Please fill in all the details'
             elsif email_address !~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/  
                 error_message = 'Email address is not valid'
-            elsif @use_recaptcha && (!recaptcha_valid?)
+            elsif @use_recaptcha && (!verify_recaptcha)
                 error_message = 'Verification not valid'
             end
 

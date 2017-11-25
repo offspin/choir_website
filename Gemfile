@@ -6,5 +6,5 @@ gem 'pg'
 gem 'mail'
 gem 'sinatra'
 gem 'sinatra-flash'
-gem 'rack-recaptcha'
+gem 'recaptcha'
 
