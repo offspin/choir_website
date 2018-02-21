@@ -6,6 +6,8 @@ module Cruby
 
         attr_accessor :connection
 
+        CONNECTION_OK = PG::Connection::CONNECTION_OK
+
         def initialize
             reconnect
         end

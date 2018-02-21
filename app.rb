@@ -35,7 +35,7 @@ module Cruby
             @use_recaptcha = (ENV['RECAPTCHA_SITE_KEY'] != nil)
             
 
-            if THE_DB.connection.status != PGconn::CONNECTION_OK
+            if THE_DB.connection.status != Database::CONNECTION_OK
                 THE_DB.reconnect
             end
 
