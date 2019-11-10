@@ -1,0 +1,18 @@
+<td width="60%">
+    <table width="100%">
+        <tr>
+            <td class="timetableHeader">
+                Forthcoming concerts and rehearsals
+            </td>
+        </tr>
+    </table>
+    <table class="timetable" width="100%">
+        <% @timetable.each do |r| %>
+            <tr>
+                <td class="timetable"><%= r['long_date'] %></td>
+                <td class="timetable"><%= r['item_type'] %></td>
+                <td class="timetable"><%= r['htm_venue_name'] %></td>
+            </tr>
+        <% end %>
+    </table>
+</td>

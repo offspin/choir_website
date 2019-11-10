@@ -396,6 +396,41 @@ module Cruby
 
         end
 
+        def get_timetable
+
+            sql = <<-EOS
+                with rehearsal_series as
+                ( select generate_series(from_date, to_date, '7 day'::interval) 
+                       + start_time as rs_date_time,
+                       venue_id
+                from rehearsal )
+                select * from 
+                (
+                    select rehearsal_series.rs_date_time
+                         , 'Rehearsal' as item_type
+                         , venue.name as venue_name
+                         , venue.map_url as venue_map_url
+                    from rehearsal_series
+                     left join venue 
+                      on rehearsal_series.venue_id = venue.id
+                    where rehearsal_series.rs_date_time > current_date
+                    union
+                    select concert.performed
+                         , 'Concert' as item_type
+                         , venue.name as venue_name
+                         , venue.map_url as venue_map_url
+                      from concert
+                       left join venue
+                        on concert.venue_id = venue.id
+                     where concert.performed > current_date
+                 ) tt
+                 order by tt.rs_date_time
+            EOS
+
+            res = (@connection.exec sql).to_a
+
+        end
+
         def get_user(name)
 
             sql = <<-EOS

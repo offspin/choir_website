@@ -201,6 +201,25 @@ input[type=submit]
     font-size: 1.0em;
 }
 
+.timetableHeader
+{
+    text-align: center;
+    font-family: Noto Serif;
+    font-size: 1.2em;
+}
+
+table.timetable
+{
+    border-collapse: collapse;
+}
+
+td.timetable
+{
+    margin: 0px;
+    border: 1px #000800 solid;
+    font-size: 0.8em;
+}
+
 table.editor
 {
     border-collapse: collapse;

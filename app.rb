@@ -43,6 +43,7 @@ module Cruby
             get_recent_works
             get_next_concerts
             get_next_rehearsals
+            get_timetable
             
             response.headers['Cache-Control'] = 'no-cache'
 
@@ -177,6 +178,10 @@ module Cruby
 
         get '/thanks_for_contact' do
             erb :thanks_for_contact
+        end
+
+        get '/timetable' do
+            erb :timetable
         end
 
         def get_music_roles
@@ -369,6 +374,22 @@ module Cruby
             @next_rehearsals = THE_DB.get_next_rehearsals RECENT_REHEARSALS_COUNT
 
             @next_rehearsals.each do |r|
+                r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
+                r['htm_venue_name'] = r['venue_name']
+
+                if r['venue_map_url']
+                    r['htm_venue_name'] = 
+                        "<a href=\"#{r['venue_map_url']}\" target=\"_blank\">#{r['venue_name']}</a>"
+                end
+
+            end
+        end
+
+        def get_timetable
+
+            @timetable = THE_DB.get_timetable
+
+            @timetable.each do |r|
                 r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
                 r['htm_venue_name'] = r['venue_name']
 
