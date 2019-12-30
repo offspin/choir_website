@@ -15,6 +15,7 @@ module Cruby
             conf.secret_key = ENV['RECAPTCHA_SECRET_KEY']
         end 
 
+        include Recaptcha::Adapters::ViewMethods
         include Recaptcha::Adapters::ControllerMethods
 
         before do
