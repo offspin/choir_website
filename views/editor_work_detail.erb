@@ -1,0 +1,44 @@
+<form method="post">
+
+    <div class="error"> <%= flash[:error] %> </div>
+
+		<label for="title">Title (format as Composer: Work)</label></br>
+		<input type="text" id="title" name="title" size="100" maxlength="100"
+			value="<%=flash[:title] ? flash[:title] : @work_detail['title']%>" />
+		</input>
+		<p/>
+
+        <label for="description">Description:</label><br/>
+        <textarea id="description" name="description" rows="6" cols="80">
+            <%=flash[:description] ? flash[:description] : @work_detail['description']%>
+        </textarea>
+
+        <script type="text/javascript">
+                CKEDITOR.replace('description',
+                        {toolbarGroups: [ 
+                            {name: 'clipboard', groups:['clipboard','undo']},
+                            {name: 'basicstyles', groups:['basicstyles','cleanup']},
+                            {name: 'paragraph', groups:['list','indent','blocks','align','bidi']},
+                            {name: 'links'},
+                            {name: 'insert'},
+                            {name: 'document', groups:['mode']}
+
+                        ]});
+        </script>
+
+    <div class="editSection">
+        <table width="100%">
+            <tr>
+                <td width="33%" align="left">
+                    <input type="submit" id="save" name="save" value="Save Changes"/>
+                </td>
+                <td width="33%" align="center">
+                    <input type="submit" id="back" name="back" value="Back"/>
+                </td>
+				<td width="34%" align="right">
+					<input type="submit" id="delete" name="delete" value="Delete"/>
+				</td>
+            </tr>
+        </table>
+    </div>
+</form>

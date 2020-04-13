@@ -294,6 +294,21 @@ module Cruby
             res = (@connection.exec sql, [id]).to_a
 
         end
+
+		def get_all_works
+
+			sql = <<-EOS
+				select w.id
+				     , w.title
+					 , w.updated
+					 , w.updated_by
+			      from work as w
+				 order by id desc;
+			EOS
+
+			res = (@connection.exec sql).to_a
+
+		end
         
         def get_system_config(name)
 
@@ -564,6 +579,42 @@ module Cruby
             res = (@connection.exec sql, [id]).to_a
 
         end
+
+		def update_work (id, title, description, updated_by)
+
+			sql = <<-EOS
+				update work
+				   set title = $2
+				     , description = $3
+					 , updated = CURRENT_TIMESTAMP
+					 , updated_by = $4
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id, title, description, updated_by]
+
+		end
+
+		def create_work (updated_by)
+			sql = <<-EOS
+				insert into work
+				(title, description, updated_by)
+				values('Title', 'Description', $1);
+			EOS
+
+			@connection.exec sql, [updated_by]
+
+		end
+
+		def delete_work (id)
+			sql = <<-EOS
+				delete from work
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id]
+
+		end
 
     end
 

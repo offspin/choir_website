@@ -1,0 +1,32 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Updated</th>
+            <th class="editor">By</th>
+            <th class="editor">Title</th>
+        </tr>
+        <% @works.each do |w| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/work_detail/#{w['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(w['updated'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= w['updated_by'] %>
+                </td>
+                <td class="editor">
+                    <%= w['title'] %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+	This page allows you to edit information about works.
+	<a href="/editor/works/new">Click here</a> to create a new work.
+    </p>
+</div>
+

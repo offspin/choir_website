@@ -84,7 +84,47 @@ module Cruby
             end 
         end 
 
+		get '/works' do
+			@works = THE_DB.get_all_works
+			erb :editor_works, :layout => :editor_layout
+		end
 
+		get '/works/new' do
+			THE_DB.create_work request.env['REMOTE_USER']
+			redirect '/editor/works'
+		end
+
+		get '/work_detail/:id' do
+			work_detail = THE_DB.get_work(params[:id])
+			if work_detail.count > 0
+				@work_detail = work_detail[0]
+				erb :editor_work_detail, :layout => :editor_layout
+			else
+				redirect '/editor/works'
+			end
+		end
+
+		post '/work_detail/:id' do
+			if params[:back]
+				redirect '/editor/works'
+			else
+				begin
+					if params[:delete]
+						THE_DB.delete_work params[:id]
+						redirect '/editor/works'
+					elsif params[:title] !~ /\w+: \w+/
+						raise "Title must be of the form Composer: Work"
+					end
+					THE_DB.update_work params[:id], params[:title], params[:description], request.env['REMOTE_USER']
+				rescue Exception => e
+					logger.error e.message
+					flash[:title] = params[:title]
+					flash[:description] = params[:description]
+					flash[:error] = e.message
+				end
+				redirect "/editor/work_detail/#{params[:id]}"
+			end
+		end
 
     end
 
