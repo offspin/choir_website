@@ -126,6 +126,50 @@ module Cruby
 			end
 		end
 
+
+		get '/venues/new' do
+			THE_DB.create_venue request.env['REMOTE_USER']
+			redirect '/editor/venues'
+		end
+
+		get '/venues' do
+			@venues = THE_DB.get_all_venue
+			erb :editor_venues, :layout => :editor_layout
+		end
+
+		get '/venue_detail/:id' do
+			venue_detail = THE_DB.get_venue(params[:id])
+			if venue_detail.count > 0
+				@venue_detail = venue_detail[0]
+				erb :editor_venue_detail, :layout => :editor_layout
+			else
+				redirect '/editor/venues'
+			end
+		end
+
+		post '/venue_detail/:id' do
+			if params[:back]
+				redirect '/editor/venues'
+			else
+				begin
+					if params[:delete]
+						THE_DB.delete_venue params[:id]
+						redirect '/editor/venues'
+					elsif (params[:name]).strip == ''
+						raise "Name must be provided"
+					end
+					THE_DB.update_venue params[:id], params[:name], params[:map_url], request.env['REMOTE_USER']
+				rescue Exception => e
+					logger.error e.message
+					flash[:name] = params[:name]
+					flash[:map_url] = params[:map_url]
+					flash[:error] = e.message
+				end
+				redirect "/editor/venue_detail/#{params[:id]}"
+			end
+		end
+
+
     end
 
 end

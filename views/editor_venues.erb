@@ -1,0 +1,38 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Updated</th>
+            <th class="editor">By</th>
+            <th class="editor">Name</th>
+            <th class="editor">Map URL</th>
+        </tr>
+        <% @venues.each do |v| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/venue_detail/#{v['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(v['updated'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= v['updated_by'] %>
+                </td>
+                <td class="editor">
+                    <%= v['name'] %>
+                </td>
+				<td class="editor">
+					<% if v['map_url'] != nil %>
+						<%= "<a target=\"_blank\" href=\"#{v['map_url']}\">#{v['map_url']}</a>" %>
+					<% end %>
+				</td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+	This page allows you to edit information about venues.
+	<a href="/editor/venues/new">Click here</a> to create a new venue.
+    </p>
+</div>
+

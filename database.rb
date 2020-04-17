@@ -616,6 +616,76 @@ module Cruby
 
 		end
 
+		def create_venue (updated_by)
+
+			sql = <<-EOS
+				insert into venue
+				(name, updated_by)
+				values('New Venue', $1);
+			EOS
+			
+			@connection.exec sql, [updated_by]
+
+		end
+
+		def update_venue (id, name, map_url, updated_by)
+
+			sql = <<-EOS
+				update venue
+				   set name = $2
+				     , map_url = nullif($3, '')
+					 , updated = current_timestamp
+					 , updated_by = $4
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id, name, map_url, updated_by]
+
+		end
+
+		def get_all_venue
+
+			sql = <<-EOS
+				select id
+				     , name
+					 , map_url
+					 , updated
+					 , updated_by
+				  from venue
+				 order by name;
+			EOS
+
+			(@connection.exec sql).to_a
+
+		end
+
+		def get_venue (id)
+
+			sql = <<-EOS
+				select id
+				     , name
+					 , map_url
+					 , updated
+					 , updated_by
+				  from venue
+				 where id = $1;
+			EOS
+
+			(@connection.exec sql, [id]).to_a
+
+		end
+
+		def delete_venue (id)
+
+			sql = <<-EOS
+				delete from venue
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id]
+
+		end
+
     end
 
 end

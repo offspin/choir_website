@@ -1,0 +1,31 @@
+<form method="post">
+
+    <div class="error"> <%= flash[:error] %> </div>
+
+		<label for="name">Name:</label></br>
+		<input type="text" id="name" name="name" size="50" maxlength="50"
+			value="<%=flash[:name] ? flash[:name] : @venue_detail['name']%>" />
+		</input>
+		<p/>
+
+        <label for="map_url">Map URL:</label><br/>
+		<input type="text" id="map_url" name="map_url" size="100" maxlength="500"
+			value="<%=flash[:map_url] ? flash[:map_url] : @venue_detail['map_url']%>" />
+		</input>
+
+    <div class="editSection">
+        <table width="100%">
+            <tr>
+                <td width="33%" align="left">
+                    <input type="submit" id="save" name="save" value="Save Changes"/>
+                </td>
+                <td width="33%" align="center">
+                    <input type="submit" id="back" name="back" value="Back"/>
+                </td>
+				<td width="34%" align="right">
+					<input type="submit" id="delete" name="delete" value="Delete"/>
+				</td>
+            </tr>
+        </table>
+    </div>
+</form>
