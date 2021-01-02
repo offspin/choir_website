@@ -17,6 +17,7 @@ module Cruby
 
         include Recaptcha::Adapters::ViewMethods
         include Recaptcha::Adapters::ControllerMethods
+        include SendGrid
 
         before do
 
@@ -142,26 +143,19 @@ module Cruby
                 redirect url('/contact')
             end
 
-            mail = Mail.new do
-                from(email_address)
-                to(recipients)
-                subject('[Letchworth Chorale]:' + subject)
-                body("Message from #{name} via #{this_url}\n\n" + message)
-                delivery_method :smtp, {
-                    :address => 'smtp.sendgrid.net',
-                    :port => 587,
-                    :domain => 'heroku.com',
-                    :user_name => ENV['SENDGRID_USERNAME'],
-                    :password => ENV['SENDGRID_PASSWORD'],
-                    :authentication => :plain,
-                    :enable_starttls_auto => true
-                }
-
-            end
-
+            from = Email.new(email: email_address)
+            subject = '[Letchworth Chorale]:' + subject 
+            to = Email.new(email: recipients)
+            content = Content.new(type: 'text/plain', value: "Message from #{name} via #{this_url}\n\n" + message)
+            mail = Mail.new(from, subject, to, content)
+            sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
 
             begin
-                mail.deliver
+                response = sg.client.mail._('send').post(request_body: mail.to_json)
+                if response.body =~ /errors/
+                  error_message = JSON.parse(response.body)['errors'][0]['message']
+                  raise Exception.new error_message
+                end
                 redirect url('/thanks_for_contact')
             rescue Exception => e
                 logger.error e.message

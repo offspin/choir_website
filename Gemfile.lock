@@ -14,6 +14,9 @@ GEM
     recaptcha (5.5.0)
       json
     ruby2_keywords (0.0.2)
+    ruby_http_client (3.5.1)
+    sendgrid-ruby (6.3.8)
+      ruby_http_client (~> 3.4)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -30,6 +33,7 @@ DEPENDENCIES
   mail
   pg
   recaptcha
+  sendgrid-ruby
   sinatra
   sinatra-flash
 
