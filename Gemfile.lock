@@ -20,7 +20,7 @@ GEM
       net-protocol
     pg (1.4.4)
     rack (2.2.4)
-    rack-protection (3.0.2)
+    rack-protection (3.0.4)
       rack
     recaptcha (5.12.3)
       json
@@ -28,10 +28,10 @@ GEM
     ruby_http_client (3.5.5)
     sendgrid-ruby (6.6.2)
       ruby_http_client (~> 3.4)
-    sinatra (3.0.2)
+    sinatra (3.0.4)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.0.2)
+      rack-protection (= 3.0.4)
       tilt (~> 2.0)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
