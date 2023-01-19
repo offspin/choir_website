@@ -1,8 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    json (2.6.2)
-    mail (2.8.0)
+    date (3.3.3)
+    json (2.6.3)
+    mail (2.8.1.rc2)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -10,17 +11,18 @@ GEM
     mini_mime (1.1.2)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    net-imap (0.3.1)
+    net-imap (0.3.4)
+      date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.1.3)
+    net-protocol (0.2.1)
       timeout
     net-smtp (0.3.3)
       net-protocol
     pg (1.4.5)
-    rack (2.2.4)
-    rack-protection (3.0.4)
+    rack (2.2.6.2)
+    rack-protection (3.0.5)
       rack
     recaptcha (5.12.3)
       json
@@ -28,22 +30,22 @@ GEM
     ruby_http_client (3.5.5)
     sendgrid-ruby (6.6.2)
       ruby_http_client (~> 3.4)
-    sinatra (3.0.4)
+    sinatra (3.0.5)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.0.4)
+      rack-protection (= 3.0.5)
       tilt (~> 2.0)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
     tilt (2.0.11)
-    timeout (0.3.0)
+    timeout (0.3.1)
     webrick (1.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  mail (~> 2.8.0rc1)
+  mail
   pg
   recaptcha
   sendgrid-ruby
