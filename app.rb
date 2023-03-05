@@ -178,6 +178,11 @@ module Cruby
             erb :timetable
         end
 
+        get '/recent_works' do
+            @recent_works_text = get_current_text_block 'RECENT'
+            erb :recent_works
+        end
+
         def get_music_roles
 
             @music_roles = THE_DB.get_roles 'Music'

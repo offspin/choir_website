@@ -1,0 +1,45 @@
+<form method="post">
+
+    <div class="error"> <%= flash[:error] %> </div>
+
+        <% if @recent_text['is_current'] == 'f' %>
+            <label for="is_current"><strong>This is not the currently published page: click to publish on save:</strong></label>
+            <input type="checkbox" name="is_current"></input>
+            <br/><br/>
+        <% else %>
+            <strong>This is the currently published page</strong>
+            <br/><br/>
+        <% end %>
+
+        <label for="content">Content:</label><br/>
+
+        <textarea id="content" name="content" rows="6" cols="80">
+            <%=flash[:content] ? flash[:content] : @recent_text['content']%>
+        </textarea>
+
+        <script type="text/javascript">
+                CKEDITOR.replace('content',
+                        {toolbarGroups: [ 
+                            {name: 'clipboard', groups:['clipboard','undo']},
+                            {name: 'basicstyles', groups:['basicstyles','cleanup']},
+                            {name: 'paragraph', groups:['list','indent','blocks','align','bidi']},
+                            {name: 'links'},
+                            {name: 'insert'},
+                            {name: 'document', groups:['mode']}
+
+                        ]});
+        </script>
+
+    <div class="editSection">
+        <table width="100%">
+            <tr>
+                <td width="50%" align="right">
+                    <input type="submit" id="save" name="save" value="Save Changes"/>
+                </td>
+                <td width="50%" align="left">
+                    <input type="submit" id="back" name="back" value="Back"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

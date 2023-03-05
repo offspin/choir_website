@@ -1,0 +1,36 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Updated</th>
+            <th class="editor">By</th>
+            <th class="editor">Published</th>
+            <th class="editor">Content</th>
+        </tr>
+        <% @recents.each do |h| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/recent_text/#{h['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(h['updated'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= h['updated_by'] %>
+                </td>
+                <td class="editor">
+                    <%= h['is_current'] == 'f' ? 'N' : 'Y' %>
+                </td>
+                <td class="editor">
+                    <%= h['content'] %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+    This page allows you to edit the recent works page text. You can see the published version and the two most recent 
+    unpublished versions in the list. <a href="/editor/recents/new">Click here</a> to create a new version copied from the current version.
+    </p>
+</div>
+
