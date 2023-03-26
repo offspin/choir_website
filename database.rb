@@ -121,6 +121,7 @@ module Cruby
                    on p.concert_id = c.id
                  where p.is_heading = 'f'::boolean
                  and p.is_interval = 'f'::boolean
+                 and p.is_solo = 'f'::boolean
                  and c.performed < current_date
                  and c.performed >= current_date - interval '1 year'
                  order by c.performed desc, coalesce(p.billing_order, 3)
