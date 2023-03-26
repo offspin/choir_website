@@ -123,7 +123,6 @@ module Cruby
                  and p.is_interval = 'f'::boolean
                  and c.performed < current_date
                  and c.performed >= current_date - interval '1 year'
-                 and p.work_id is not null
                  order by c.performed desc, coalesce(p.billing_order, 3)
                  limit $1;
             EOS
