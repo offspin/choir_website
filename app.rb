@@ -147,7 +147,7 @@ module Cruby
             from = Email.new(email: sender)
             subject = '[Letchworth Chorale]:' + subject 
             to = Email.new(email: recipients)
-            content = Content.new(type: 'text/plain', value: "Message from #{name} (#{email_address} via #{this_url}\n\n" + message)
+            content = Content.new(type: 'text/plain', value: "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message)
             mail = Mail.new(from, subject, to, content)
             sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
 
