@@ -123,6 +123,7 @@ module Cruby
             message = (params[:message]).strip
             this_url = request.url
             recipients = get_system_config_string('contact_email_recipients') || 'admin@offspin.com'
+            sender = get_system_config_string('contact_email_sender') || 'info@letchworth-chorale.org.uk'
 
             error_message = ''
 
@@ -143,10 +144,10 @@ module Cruby
                 redirect url('/contact')
             end
 
-            from = Email.new(email: email_address)
+            from = Email.new(email: sender)
             subject = '[Letchworth Chorale]:' + subject 
             to = Email.new(email: recipients)
-            content = Content.new(type: 'text/plain', value: "Message from #{name} via #{this_url}\n\n" + message)
+            content = Content.new(type: 'text/plain', value: "Message from #{name} (#{email_address} via #{this_url}\n\n" + message)
             mail = Mail.new(from, subject, to, content)
             sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
 
