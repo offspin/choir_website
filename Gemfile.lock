@@ -1,42 +1,42 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    date (3.3.3)
+    date (3.3.4)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
       net-smtp
-    mini_mime (1.1.2)
+    mini_mime (1.1.5)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    net-imap (0.3.7)
+    net-imap (0.4.4)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.1)
+    net-protocol (0.2.2)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0)
       net-protocol
-    pg (1.5.3)
-    rack (2.2.7)
-    rack-protection (3.0.6)
-      rack
-    recaptcha (5.14.0)
+    pg (1.5.4)
+    rack (2.2.8)
+    rack-protection (3.1.0)
+      rack (~> 2.2, >= 2.2.4)
+    recaptcha (5.16.0)
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
     sendgrid-ruby (6.6.2)
       ruby_http_client (~> 3.4)
-    sinatra (3.0.6)
+    sinatra (3.1.0)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.0.6)
+      rack-protection (= 3.1.0)
       tilt (~> 2.0)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
-    tilt (2.2.0)
-    timeout (0.4.0)
+    tilt (2.3.0)
+    timeout (0.4.1)
     webrick (1.8.1)
 
 PLATFORMS
