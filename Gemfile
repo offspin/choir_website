@@ -10,4 +10,5 @@ gem 'sinatra-flash'
 gem 'recaptcha'
 gem 'sendgrid-ruby'
 gem 'rackup'
+gem 'bcrypt'
 

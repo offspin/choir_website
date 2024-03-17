@@ -5,6 +5,11 @@ module Cruby
         enable :sessions, :logging, :raise_errors
         register Sinatra::Flash
 
+        use Rack::Auth::Basic, "Restricted Area" do |username, password|
+            users = THE_DB.get_user(username)
+            users.count > 0 ? BCrypt::Password.new(users[0]['password_hash']) == password : nil
+        end
+
         get '/' do
             erb :editor_index, :layout => :editor_layout
         end
@@ -23,11 +28,6 @@ module Cruby
             THE_DB.create_text_block_from_current 'HOME', request.env['REMOTE_USER']
             redirect '/editor/homes'
         end 
-
-        get '/recents/new' do
-            THE_DB.create_text_block_from_current 'RECENT', request.env['REMOTE_USER']
-            redirect '/editor/recents'
-        end
 
         get '/news_flash/:id' do
            news_flashes = THE_DB.get_news_flash_by_id(params[:id])
@@ -88,39 +88,6 @@ module Cruby
                 redirect "/editor/home_text/#{params[:id]}"
             end 
         end 
-
-        get '/recents' do
-            @recents = (THE_DB.get_all_text_block 'RECENT')[0..2]
-            erb :editor_recents, :layout => :editor_layout
-        end
-
-        get '/recent_text/:id' do
-            recent_texts = THE_DB.get_text_block_by_id(params[:id])
-            if recent_texts.count > 0
-                @recent_text = recent_texts[0]
-                erb :editor_recent_text, :layout => :editor_layout
-            else
-                redirect '/editor/recents'
-            end
-        end
-
-        post '/recent_text/:id' do
-            if params[:back]
-                redirect '/editor/recents'
-            else
-                begin
-                    THE_DB.update_text_block params[:id], params[:content], request.env['REMOTE_USER']
-                    if params[:is_current] == 'on'
-                        THE_DB.make_text_block_current params[:id]
-                    end
-                rescue Exception => e
-                    logger.error e.message
-                    flash[:content] = params[:content]
-                    flash[:error] = e.message
-                end
-                redirect "/editor/recent_text/#{params[:id]}"
-            end
-        end
 
 		get '/works' do
 			@works = THE_DB.get_all_works
