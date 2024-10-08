@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.3.4'
+ruby '3.3.5'
 
 gem 'webrick'
 gem 'pg'
@@ -11,4 +11,5 @@ gem 'recaptcha'
 gem 'sendgrid-ruby'
 gem 'rackup'
 gem 'bcrypt'
-
+gem 'ostruct'
+gem 'logger'
