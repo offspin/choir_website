@@ -1,0 +1,18 @@
+<td width="60%">
+    <table width="100%">
+        <tr>
+            <td class="concertListHeader">
+                Past concerts
+            </td>
+        </tr>
+    </table>
+    <table class="concertList" width="100%">
+        <% @past_concerts.each do |c| %>
+            <tr>
+                <td class="concertList"><%= c['long_date'] %></td>
+                <td class="concertList"><%= c['htm_title'] %></td>
+                <td class="concertList"><%= c['venue_name'] %></td>
+            </tr>
+        <% end %>
+    </table>
+</td>

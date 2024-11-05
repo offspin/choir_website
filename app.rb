@@ -1,8 +1,9 @@
 module Cruby
 
     RECENT_WORKS_COUNT = 10
-    RECENT_CONCERTS_COUNT = 3
-    RECENT_REHEARSALS_COUNT = 1
+    PAST_CONCERTS_COUNT = 15
+    NEXT_CONCERTS_COUNT = 10
+    NEXT_REHEARSALS_COUNT = 1
 
 
     class App < Sinatra::Base
@@ -179,6 +180,11 @@ module Cruby
             erb :timetable
         end
 
+        get '/past_concerts' do
+            get_past_concerts 
+            erb :past_concerts
+        end
+
         def get_music_roles
 
             @music_roles = THE_DB.get_roles 'Music'
@@ -214,7 +220,7 @@ module Cruby
        
         def get_next_concerts
 
-            @next_concerts = THE_DB.get_next_concerts RECENT_CONCERTS_COUNT
+            @next_concerts = THE_DB.get_next_concerts NEXT_CONCERTS_COUNT
 
             @next_concerts.each do |c|
 
@@ -247,6 +253,24 @@ module Cruby
                         "<a href=\"#{c['venue_map_url']}\" target=\"_blank\">#{c['venue_name']}</a>"
                 end
                         
+
+            end
+
+
+        end
+
+        def get_past_concerts
+
+            @past_concerts = THE_DB.get_past_concerts PAST_CONCERTS_COUNT
+
+            @past_concerts.each do |c|
+
+                c['long_date'] = DateTime.parse(c['performed']).strftime('%A %d %B %Y')
+                c['htm_title'] = c['title']
+
+                if c['has_programme'] == 't'
+                    c['htm_title'] = "<a href=\"/concerts/#{c['friendly_url']}\" target=\"_blank\">#{c['title']}</a>"
+                end
 
             end
 
@@ -366,7 +390,7 @@ module Cruby
 
         def get_next_rehearsals
 
-            @next_rehearsals = THE_DB.get_next_rehearsals RECENT_REHEARSALS_COUNT
+            @next_rehearsals = THE_DB.get_next_rehearsals NEXT_REHEARSALS_COUNT
 
             @next_rehearsals.each do |r|
                 r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')

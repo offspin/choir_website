@@ -32,23 +32,32 @@ module Cruby
         end
 
 
-        def get_last_concerts(count)
+        def get_past_concerts(count, with_programme = 'f')
 
             sql = <<-EOS
-                select concert.id as concert_id
-                     , concert.title
-                     , concert.performed
-                     , venue.name as venue_name
-                     , venue.map_url as venue_map_url
-                from concert
-                 left join venue
-                  on concert.venue_id = venue.id
-                where concert.performed <= current_date
-                order by concert.performed desc
+                select * from 
+                    (select concert.id as concert_id
+                          , concert.friendly_url
+                          , concert.title
+                          , concert.performed
+                          , venue.name as venue_name
+                          , venue.map_url as venue_map_url
+                          , case when exists
+                              (select * from programme
+                                where programme.concert_id = concert.id)
+                               then 't'::boolean
+                               else 'f'::boolean
+                            end as has_programme
+                     from concert
+                      left join venue
+                        on concert.venue_id = venue.id
+                     where concert.performed <= current_date) cc
+                where (cc.has_programme = 't'::boolean or $2 = 'f'::boolean)
+                order by cc.performed desc
                 limit $1;
             EOS
 
-            res = (@connection.exec sql, [ count ]).to_a
+            res = (@connection.exec sql, [ count, with_programme ]).to_a
             
         end
 
