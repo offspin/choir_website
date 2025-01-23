@@ -30,7 +30,9 @@
                         <%= @home_text %>
 
                         <% if @next_rehearsals.count > 0 %>
-                            <% if DateTime.parse(@next_rehearsals[0]['rs_date_time']) <= DateTime.now + 14 %>
+                               <% @next_rehearsal_time = DateTime.parse(@next_rehearsals[0]['rs_date_time']) %>
+                               <% @next_rehearsal_venue = @next_rehearsals[0]['htm_venue_name'] %>
+                               <% if @next_rehearsal_time <= DateTime.now + 14 %>
                                 <% if @next_concerts.count > 0 %>
                                    <p> At the moment we are rehearsing for our 
                                     <% @next_concert_performed = DateTime.parse(@next_concerts[0]['performed']) %>
@@ -46,8 +48,12 @@
                                         <%= @next_concert_performed.strftime(' at %l:%M %P') %>
                                     <% end %>
                                     <%= '.' %>
-
                                 <% end %>
+                                <p> Our next rehearsal is on <%= @next_rehearsal_time.strftime('%A, %d %B %Y') %> at <%= @next_rehearsal_time.strftime('%l:%M %P') %>
+                                <% if @next_rehearsal_venue != '' %>
+                                  at <%= @next_rehearsal_venue %>
+                                <% end %>
+                                . </p>
                             <% end %>
                         <% end %>
 
