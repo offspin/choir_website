@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.3.7'
 
-gem 'webrick'
+gem 'puma'
 gem 'pg'
 gem 'mail'
 gem 'sinatra'
