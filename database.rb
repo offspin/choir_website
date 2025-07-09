@@ -448,7 +448,8 @@ module Cruby
                          , 'Rehearsal' as item_type
                          , venue.name as venue_name
                          , venue.map_url as venue_map_url
-                         , null as concert_id
+                         , cast(null as int) as concert_id
+                         , cast('f' as boolean) as has_programme
                     from rehearsal_series
                      left join venue 
                       on rehearsal_series.venue_id = venue.id
@@ -459,6 +460,14 @@ module Cruby
                          , venue.name as venue_name
                          , venue.map_url as venue_map_url
                          , concert.id as concert_id
+                         , case when exists
+                           (
+                              select * from programme
+                               where programme.concert_id = concert.id
+                           ) 
+                               then cast('t' as boolean)
+                               else cast('f' as boolean)
+                           end as Has_programme
                       from concert
                        left join venue
                         on concert.venue_id = venue.id

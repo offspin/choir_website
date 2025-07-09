@@ -422,7 +422,7 @@ module Cruby
                         "<a href=\"#{r['venue_map_url']}\" target=\"_blank\">#{r['venue_name']}</a>"
                 end
 
-                if r['item_type'] == 'Concert'
+                if r['item_type'] == 'Concert'&& r['has_programme'] == 't'
                     r['htm_item_type'] = 
                       "<a href=\"/concerts/#{r['concert_id']}\" target=\"_blank\">#{r['item_type']}</a>"
                 end
