@@ -1,6 +1,7 @@
 module Cruby
 
     RECENT_WORKS_COUNT = 10
+    MAX_RECENT_PER_CONCERT = 5
     PAST_CONCERTS_COUNT = 15
     NEXT_CONCERTS_COUNT = 10
     NEXT_REHEARSALS_COUNT = 1
@@ -204,7 +205,7 @@ module Cruby
 
         def get_recent_works
 
-            @recent_works = THE_DB.get_recent_works RECENT_WORKS_COUNT
+            @recent_works = THE_DB.get_recent_works RECENT_WORKS_COUNT, MAX_RECENT_PER_CONCERT
 
             @recent_works.each do |w|
                 w['htm_description'] = w['description'].gsub(/^(.*:)(.*)$/, '\1<em>\2</em>')
@@ -227,6 +228,7 @@ module Cruby
                 c['long_date'] = DateTime.parse(c['performed']).strftime('%A %d %B %Y')
                 c['htm_long_date'] = c['long_date']
                 c['htm_venue_name'] = c['venue_name']
+                c['htm_title'] = c['title']
 
                 billed_prog = THE_DB.get_billed_programme c['concert_id']
 
@@ -246,6 +248,8 @@ module Cruby
                 if billed_prog.count > 0
                     c['htm_long_date'] =
                         "<a href=\"/concerts/#{c['concert_id']}\">#{c['long_date']}</a>"
+                    c['htm_title'] =
+                        "<a href=\"/concerts/#{c['concert_id']}\">#{c['title']}</a>"
                 end
 
                 if c['venue_map_url']
@@ -411,10 +415,16 @@ module Cruby
             @timetable.each do |r|
                 r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
                 r['htm_venue_name'] = r['venue_name']
+                r['htm_item_type'] = r['item_type']
 
                 if r['venue_map_url']
                     r['htm_venue_name'] = 
                         "<a href=\"#{r['venue_map_url']}\" target=\"_blank\">#{r['venue_name']}</a>"
+                end
+
+                if r['item_type'] == 'Concert'
+                    r['htm_item_type'] = 
+                      "<a href=\"/concerts/#{r['concert_id']}\" target=\"_blank\">#{r['item_type']}</a>"
                 end
 
             end

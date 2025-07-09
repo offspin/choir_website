@@ -119,27 +119,41 @@ module Cruby
 
         end
 
-        def get_recent_works(count)
+        def get_recent_works(work_count, max_per_concert)
 
             sql = <<-EOS
-                select p.id as programme_id
-                     , p.description
-                     , p.work_id
-                 from  programme as p
-                  inner join concert as c
-                   on p.concert_id = c.id
-                 where p.is_heading = 'f'::boolean
-                 and p.is_interval = 'f'::boolean
-                 and p.is_solo = 'f'::boolean
-                 and c.performed < current_date
-                 and c.performed >= current_date - interval '1 year'
-                 order by c.performed desc, coalesce(p.billing_order, 3)
-                 limit $1;
+
+              select p.id as programme_id
+               , p.description
+               , p.work_id
+                from (
+                  select id
+                       , concert_id
+                       , description
+                       , work_id
+                       , row_number() over (
+                              partition by concert_id
+                              order by 
+                                 coalesce(nullif(billing_order, 0), $2 + 1) 
+                         ) as history_order
+                    from programme
+                   where is_heading    =  'f'::boolean
+                     and is_interval   =  'f'::boolean
+                     and is_solo       =  'f'::boolean
+                 ) as p
+              inner join concert as c
+                on p.concert_id  =  c.id
+              where c.performed  <  current_date
+               and c.performed   >= current_date - interval '1 year'
+               and history_order <= $2
+              order by c.performed desc , p.history_order
+              limit $1;
+
             EOS
 
-            res = (@connection.exec sql, [ count ]).to_a
+            res = (@connection.exec sql, [ work_count, max_per_concert ]).to_a
 
-        end
+            end
 
         def get_person(id)
 
@@ -434,6 +448,7 @@ module Cruby
                          , 'Rehearsal' as item_type
                          , venue.name as venue_name
                          , venue.map_url as venue_map_url
+                         , null as concert_id
                     from rehearsal_series
                      left join venue 
                       on rehearsal_series.venue_id = venue.id
@@ -443,6 +458,7 @@ module Cruby
                          , 'Concert' as item_type
                          , venue.name as venue_name
                          , venue.map_url as venue_map_url
+                         , concert.id as concert_id
                       from concert
                        left join venue
                         on concert.venue_id = venue.id
