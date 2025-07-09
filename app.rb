@@ -2,7 +2,8 @@ module Cruby
 
     RECENT_WORKS_COUNT = 10
     MAX_RECENT_PER_CONCERT = 5
-    PAST_CONCERTS_COUNT = 15
+    PAST_CONCERTS_COUNT_FULL = 15
+    PAST_CONCERTS_COUNT_SHORT = 4
     NEXT_CONCERTS_COUNT = 10
     NEXT_REHEARSALS_COUNT = 1
 
@@ -45,6 +46,7 @@ module Cruby
             get_music_roles
             get_recent_works
             get_next_concerts
+            get_past_concerts 
             get_next_rehearsals
             get_timetable
             
@@ -265,7 +267,8 @@ module Cruby
 
         def get_past_concerts
 
-            @past_concerts = THE_DB.get_past_concerts PAST_CONCERTS_COUNT
+            @past_concerts = THE_DB.get_past_concerts PAST_CONCERTS_COUNT_FULL
+            @past_concerts_count_short = PAST_CONCERTS_COUNT_SHORT
 
             @past_concerts.each do |c|
 
