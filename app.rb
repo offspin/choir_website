@@ -146,7 +146,7 @@ module Choirweb
                 body        "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message
                 delivery_method :smtp, {
                     :address =>              ENV['EMAIL_SMTP_SERVER'],
-                    :user_name  =>           semder,
+                    :user_name  =>           ENV['EMAIL_SENDER_ACCOUNT'],
                     :password =>             ENV['EMAIL_SENDER_PASSWORD'],
                     :port =>                 587,
                     :domain =>               'letchworth-chorale.org.uk',
