@@ -118,7 +118,6 @@ module Choirweb
             message = (params[:message]).strip
             this_url = request.url
             recipients = get_system_config_string('contact_email_recipients') || 'admin@offspin.com'
-            sender = get_system_config_string('contact_email_sender') || 'info@letchworth-chorale.org.uk'
 
             error_message = ''
 
@@ -140,7 +139,7 @@ module Choirweb
             end
 
             mail = Mail.new do
-                from        sender
+                from        ENV['EMAIL_SENDER_ACCOUNT']
                 to          recipients
                 subject     '[Letchworth Chorale]:' + subject
                 body        "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message
