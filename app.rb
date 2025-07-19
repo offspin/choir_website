@@ -140,13 +140,13 @@ module Choirweb
             end
 
             mail = Mail.new do
-                from        ENV['EMAIL_SENDER_ACCOUNT']
+                from        sender
                 to          recipients
                 subject     '[Letchworth Chorale]:' + subject
                 body        "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message
                 delivery_method :smtp, {
                     :address =>              ENV['EMAIL_SMTP_SERVER'],
-                    :user_name  =>           ENV['EMAIL_SENDER_ACCOUNT'],
+                    :user_name  =>           semder,
                     :password =>             ENV['EMAIL_SENDER_PASSWORD'],
                     :port =>                 587,
                     :domain =>               'letchworth-chorale.org.uk',
