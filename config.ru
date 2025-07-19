@@ -4,18 +4,17 @@ require 'sinatra/flash'
 require 'recaptcha'
 require 'mail'
 require 'pg'
-require 'sendgrid-ruby'
 require 'bcrypt'
 require './database'
 require './app'
 require './editor'
 
 
-THE_DB = Cruby::Database.new
+THE_DB = Choirweb::Database.new
 
-the_editor = Cruby::Editor.new
+the_editor = Choirweb::Editor.new
 
-the_app = Cruby::App.new
+the_app = Choirweb::App.new
 
 map '/editor' do
     run the_editor

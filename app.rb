@@ -1,4 +1,4 @@
-module Cruby
+module Choirweb
 
     RECENT_WORKS_COUNT = 10
     MAX_RECENT_PER_CONCERT = 5
@@ -20,17 +20,8 @@ module Cruby
 
         include Recaptcha::Adapters::ViewMethods
         include Recaptcha::Adapters::ControllerMethods
-        include SendGrid
 
         before do
-
-            if request.host =~ /herokudns.com/
-                redirect 'https://www.letchworth-chorale.org.uk', 301
-            end
-           
-            if ENV['RACK_ENV'] != 'development'  
-                redirect request.url.sub('http://', 'https://') unless request.secure?
-            end
 
             user_agent = request.env['HTTP_USER_AGENT']
 
@@ -148,30 +139,34 @@ module Cruby
                 redirect url('/contact')
             end
 
-            from = Email.new(email: sender)
-            subject = '[Letchworth Chorale]:' + subject 
-            to = Email.new(email: recipients)
-            content = Content.new(type: 'text/plain', value: "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message)
-            mail = Mail.new(from, subject, to, content)
-            sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-
-            begin
-                response = sg.client.mail._('send').post(request_body: mail.to_json)
-                if response.body =~ /errors/
-                  error_message = JSON.parse(response.body)['errors'][0]['message']
-                  raise Exception.new error_message
-                end
-                redirect url('/thanks_for_contact')
-            rescue Exception => e
-                logger.error e.message
-                flash[:error] = e.message
-                flash[:name] = name
-                flash[:email_address] = email_address
-                flash[:subject] = subject
-                flash[:message] = message
-                redirect url('/contact')
+            mail = Mail.new do
+                from        ENV['EMAIL_SENDER_ACCOUNT']
+                to          recipients
+                subject     '[Letchworth Chorale]:' + subject
+                body        "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message
+                delivery_method :smtp, {
+                    :address =>              ENV['EMAIL_SMTP_SERVER'],
+                    :user_name  =>           ENV['EMAIL_SENDER_ACCOUNT'],
+                    :password =>             ENV['EMAIL_SENDER_PASSWORD'],
+                    :port =>                 587,
+                    :domain =>               'letchworth-chorale.org.uk',
+                    :authentication =>       'plain',
+                    :enable_starttls_auto => true
+                }
             end
 
+            begin
+              mail.deliver
+              redirect url('/thanks_for_contact')
+            rescue Exception => e
+              logger.error e.message
+              flash[:error] = e.message
+              flash[:name] = name
+              flash[:email_address] = email_address
+              flash[:subject] = subject
+              flash[:message] = message
+              redirect url('/contact')
+            end
 
         end
 
