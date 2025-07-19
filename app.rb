@@ -20,7 +20,6 @@ module Cruby
 
         include Recaptcha::Adapters::ViewMethods
         include Recaptcha::Adapters::ControllerMethods
-        include SendGrid
 
         before do
 
@@ -127,7 +126,6 @@ module Cruby
             message = (params[:message]).strip
             this_url = request.url
             recipients = get_system_config_string('contact_email_recipients') || 'admin@offspin.com'
-            sender = get_system_config_string('contact_email_sender') || 'info@letchworth-chorale.org.uk'
 
             error_message = ''
 
@@ -148,19 +146,24 @@ module Cruby
                 redirect url('/contact')
             end
 
-            from = Email.new(email: sender)
-            subject = '[Letchworth Chorale]:' + subject 
-            to = Email.new(email: recipients)
-            content = Content.new(type: 'text/plain', value: "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message)
-            mail = Mail.new(from, subject, to, content)
-            sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+            mail = Mail.new do
+                from        ENV['EMAIL_SENDER_ACCOUNT']
+                to          recipients
+                subject     '[Letchworth Chorale]:' + subject
+                body        "Message from #{name} (#{email_address}) via #{this_url}\n\n" + message
+                delivery_method :smtp, {
+                    :address =>              ENV['EMAIL_SMTP_SERVER'],
+                    :user_name  =>           ENV['EMAIL_SENDER_ACCOUNT'],
+                    :password =>             ENV['EMAIL_SENDER_PASSWORD'],
+                    :port =>                 587,
+                    :domain =>               'letchworth-chorale.org.uk',
+                    :authentication =>       'plain',
+                    :enable_starttls_auto => true
+                }
+            end
 
             begin
-                response = sg.client.mail._('send').post(request_body: mail.to_json)
-                if response.body =~ /errors/
-                  error_message = JSON.parse(response.body)['errors'][0]['message']
-                  raise Exception.new error_message
-                end
+                mail.deliver
                 redirect url('/thanks_for_contact')
             rescue Exception => e
                 logger.error e.message
