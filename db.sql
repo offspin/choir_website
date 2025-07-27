@@ -17,6 +17,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -486,6 +500,20 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.person TO choirweb;
 
 
 --
+-- Name: TABLE pg_stat_statements; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.pg_stat_statements TO choirweb;
+
+
+--
+-- Name: TABLE pg_stat_statements_info; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.pg_stat_statements_info TO choirweb;
+
+
+--
 -- Name: TABLE programme; Type: ACL; Schema: public; Owner: -
 --
 
@@ -517,7 +545,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.role TO choirweb;
 -- Name: TABLE system_config; Type: ACL; Schema: public; Owner: -
 --
 
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.system_config TO choirweb;
+GRANT SELECT ON TABLE public.system_config TO choirweb;
 
 
 --
@@ -538,7 +566,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.text_block_label TO choirweb;
 -- Name: TABLE user_of_system; Type: ACL; Schema: public; Owner: -
 --
 
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_of_system TO choirweb;
+GRANT SELECT ON TABLE public.user_of_system TO choirweb;
 
 
 --
