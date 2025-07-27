@@ -2,12 +2,13 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
+-- Dumped from database version 17.5 (Ubuntu 17.5-1.pgdg24.04+1)
+-- Dumped by pg_dump version 17.5 (Ubuntu 17.5-1.pgdg24.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -15,41 +16,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: heroku_ext; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA heroku_ext;
-
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA heroku_ext;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
-
 
 SET default_tablespace = '';
 
@@ -489,6 +455,104 @@ ALTER TABLE ONLY public.text_block
 
 ALTER TABLE ONLY public.work
     ADD CONSTRAINT fk_work_updated_by_user FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
+
+
+--
+-- Name: TABLE concert; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.concert TO choirweb;
+
+
+--
+-- Name: TABLE media; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.media TO choirweb;
+
+
+--
+-- Name: TABLE news_flash; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.news_flash TO choirweb;
+
+
+--
+-- Name: TABLE person; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.person TO choirweb;
+
+
+--
+-- Name: TABLE programme; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme TO choirweb;
+
+
+--
+-- Name: TABLE programme_part; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme_part TO choirweb;
+
+
+--
+-- Name: TABLE rehearsal; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.rehearsal TO choirweb;
+
+
+--
+-- Name: TABLE role; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.role TO choirweb;
+
+
+--
+-- Name: TABLE system_config; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.system_config TO choirweb;
+
+
+--
+-- Name: TABLE text_block; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.text_block TO choirweb;
+
+
+--
+-- Name: TABLE text_block_label; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.text_block_label TO choirweb;
+
+
+--
+-- Name: TABLE user_of_system; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_of_system TO choirweb;
+
+
+--
+-- Name: TABLE venue; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.venue TO choirweb;
+
+
+--
+-- Name: TABLE work; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.work TO choirweb;
 
 
 --

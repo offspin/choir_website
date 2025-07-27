@@ -1,4 +1,9 @@
 .svn
 .svn/*
 *.dump
+*.sock
+puma.*
+.bundle/*
+config/*
+log/*
 db/*

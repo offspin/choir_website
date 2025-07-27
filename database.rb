@@ -1,6 +1,6 @@
 require 'pg'
 
-module Cruby
+module Choirweb
 
     class Database
 
@@ -26,7 +26,7 @@ module Cruby
                     :password => dbu.password,
                     :dbname => dbu.path[1..-1]
             else
-                db = PG::Connection.new :dbname => 'cruby'
+                db = PG::Connection.new :dbname => 'choirweb'
             end
 
         end

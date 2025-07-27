@@ -1,4 +1,4 @@
-module Cruby
+module Choirweb
 
     RECENT_WORKS_COUNT = 10
     MAX_RECENT_PER_CONCERT = 5
@@ -22,14 +22,6 @@ module Cruby
         include Recaptcha::Adapters::ControllerMethods
 
         before do
-
-            if request.host =~ /herokudns.com/
-                redirect 'https://www.letchworth-chorale.org.uk', 301
-            end
-           
-            if ENV['RACK_ENV'] != 'development'  
-                redirect request.url.sub('http://', 'https://') unless request.secure?
-            end
 
             user_agent = request.env['HTTP_USER_AGENT']
 
@@ -163,18 +155,17 @@ module Cruby
             end
 
             begin
-                mail.deliver
-                redirect url('/thanks_for_contact')
+              mail.deliver
+              redirect url('/thanks_for_contact')
             rescue Exception => e
-                logger.error e.message
-                flash[:error] = e.message
-                flash[:name] = name
-                flash[:email_address] = email_address
-                flash[:subject] = subject
-                flash[:message] = message
-                redirect url('/contact')
+              logger.error e.message
+              flash[:error] = e.message
+              flash[:name] = name
+              flash[:email_address] = email_address
+              flash[:subject] = subject
+              flash[:message] = message
+              redirect url('/contact')
             end
-
 
         end
 

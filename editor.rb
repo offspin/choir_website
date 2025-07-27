@@ -1,4 +1,4 @@
-module Cruby
+module Choirweb
 
     class Editor < Sinatra::Base
 
