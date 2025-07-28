@@ -1,0 +1,38 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Updated</th>
+            <th class="editor">By</th>
+            <th class="editor">Performed</th>
+            <th class="editor">Title</th>
+        </tr>
+        <% @concerts.each do |c| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/concert_detail/#{c['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(c['updated'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= c['updated_by'] %>
+                </td>
+                <td class="editor">
+                    <% if c['performed'] %>
+                        <%= (DateTime.parse(c['performed'])).strftime('%d/%m/%Y %H:%M') %>
+                    <% end %>
+                </td>
+                <td class="editor">
+                    <%= c['title'] %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+	This page allows you to edit information about concerts.
+	<a href="/editor/concerts/new">Click here</a> to create a new concert.
+    </p>
+</div>
+

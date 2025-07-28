@@ -262,6 +262,21 @@ input.editor
     font-size: 0.9em;
 }
 
+select.editor
+{
+	color: #008000;
+	font-family: Noto Sans;
+	font-size: 0.9em;
+}
+
+select.editor>option
+{
+	color: #008000;
+	font-family: Noto Sans;
+	margin: 5px;
+	font-size: 0.9em;
+}
+
 div.editSection
 {
     border: 1px #ddffdd solid;

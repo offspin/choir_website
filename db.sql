@@ -31,6 +31,18 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
 COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
 
 
+--
+-- Name: concert_sequence; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.concert_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -40,14 +52,16 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.concert (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('public.concert_sequence'::regclass) NOT NULL,
     title character varying(50) NOT NULL,
     sub_title character varying(50),
     pricing character varying(200),
     description text,
     performed timestamp without time zone,
     venue_id integer,
-    friendly_url character varying(200)
+    friendly_url character varying(200),
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by character varying(20) NOT NULL
 );
 
 
@@ -400,6 +414,14 @@ ALTER TABLE ONLY public.work
 
 
 --
+-- Name: concert fk_concert_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.concert
+    ADD CONSTRAINT fk_concert_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
+
+
+--
 -- Name: concert fk_concert_venue; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -448,14 +470,6 @@ ALTER TABLE ONLY public.role
 
 
 --
--- Name: text_block fk_text_block_created; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.text_block
-    ADD CONSTRAINT fk_text_block_created FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
-
-
---
 -- Name: text_block fk_text_block_label; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -464,11 +478,19 @@ ALTER TABLE ONLY public.text_block
 
 
 --
--- Name: work fk_work_updated_by_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: text_block fk_text_block_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.text_block
+    ADD CONSTRAINT fk_text_block_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
+
+
+--
+-- Name: work fk_work_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.work
-    ADD CONSTRAINT fk_work_updated_by_user FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
+    ADD CONSTRAINT fk_work_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
 
 
 --

@@ -175,6 +175,63 @@ module Choirweb
 		end
 
 
+        get '/concerts' do
+            @concerts = THE_DB.get_all_concerts
+            erb :editor_concerts, :layout => :editor_layout
+        end
+
+        get '/concerts/new' do
+          THE_DB.create_concert request.env['REMOTE_USER']
+          redirect '/editor/concerts'
+        end
+
+		get '/concert_detail/:id' do
+			concert_detail = THE_DB.get_concert(params[:id])
+            @venues = THE_DB.get_all_venue
+			if concert_detail.count > 0
+				@concert_detail = concert_detail[0]
+				erb :editor_concert_detail, :layout => :editor_layout
+			else
+				redirect '/editor/concerts'
+			end
+		end
+
+		post '/concert_detail/:id' do
+			if params[:back]
+				redirect '/editor/concerts'
+			else
+				begin
+					if params[:delete]
+						THE_DB.delete_concert params[:id]
+						redirect '/editor/concerts'
+					end
+                    performed = ''
+                    if params[:performed_date]
+                        performed = params[:performed_date]
+                        if params[:performed_time]
+                            performed += ' ' + params[:performed_time]
+                        end
+                    end
+					THE_DB.update_concert params[:id], params[:title], 
+                        params[:sub_title], params[:pricing], params[:venue], 
+                        performed, params[:friendly_url], params[:description], 
+                        request.env['REMOTE_USER']
+				rescue Exception => e
+					logger.error e.message
+					flash[:title] = params[:title]
+                    flash[:venue] = params[:venue]
+                    flash[:sub_title] = params[:sub_title]
+                    flash[:performed_date] = params[:performed_date]
+                    flash[:performed_time] = params[:performed_time]
+                    flash[:friendly_url] = params[:friendly_url]
+					flash[:description] = params[:description]
+					flash[:error] = e.message
+				end
+				redirect "/editor/concert_detail/#{params[:id]}"
+			end
+		end
+
+
     end
 
 end

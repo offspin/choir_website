@@ -82,6 +82,70 @@ module Choirweb
 
         end
 
+        def get_all_concerts
+
+           sql = <<-EOS
+                select concert.id
+                     , concert.title
+                     , concert.performed
+                     , concert.updated
+                     , concert.updated_by
+                from concert
+                order by concert.performed desc
+            EOS
+
+            res = (@connection.exec sql).to_a
+
+        end
+
+        def create_concert(updated_by)
+
+            sql = <<-EOS
+
+                insert into concert
+                (title, updated, updated_by)
+                values
+                ('New Concert', current_timestamp, $1)
+
+            EOS
+
+            connection.exec sql, [updated_by]
+
+        end
+
+        def update_concert(id, title, sub_title, pricing, venue_id,
+                           performed, friendly_url, description, updated_by)
+            
+            sql = <<-EOS
+                update concert
+                set title = $2
+                  , sub_title = nullif($3, '')
+                  , pricing = nullif($4, '')
+                  , venue_id = nullif($5, 0)
+                  , performed = case when $6 = '' then null::timestamp else $6::timestamp end
+                  , friendly_url = nullif($7, '')
+                  , description = nullif($8, '')
+                  , updated = current_timestamp
+                  , updated_by = $9
+                where id = $1;
+            EOS
+
+            @connection.exec sql, [id, title, sub_title, pricing, venue_id,
+                                   performed, friendly_url, description, updated_by]
+
+        end
+
+		def delete_concert (id)
+
+			sql = <<-EOS
+				delete from concert
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id]
+
+		end
+
         def get_billed_programme(concert_id)
 
             sql =<<-EOS
@@ -229,8 +293,11 @@ module Choirweb
                      , concert.description
                      , concert.performed
                      , concert.friendly_url
+                     , concert.venue_id as venue_id
                      , venue.name as venue_name
                      , venue.map_url as venue_map_url
+                     , concert.updated
+                     , concert.updated_by
                 from concert
                  left join venue
                   on concert.venue_id = venue.id
