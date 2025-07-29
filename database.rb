@@ -501,6 +501,29 @@ module Choirweb
 
         end
 
+        def get_rehearsal_dates(id)
+
+            sql = <<-EOS
+                with rehearsal_series as
+                ( select generate_series(from_date, to_date, '7 day'::interval) 
+                       + start_time as rs_date_time,
+                       venue_id
+                   from rehearsal
+                   where id = $1
+                )
+                select rehearsal_series.rs_date_time
+                     , venue.name as venue_name
+                from rehearsal_series
+                 left join venue 
+                  on rehearsal_series.venue_id = venue.id
+                where rehearsal_series.rs_date_time > current_date
+                order by rehearsal_series.rs_date_time
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+
+        end
+
         def get_all_rehearsals
             
             sql = <<-EOS

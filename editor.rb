@@ -241,6 +241,7 @@ module Choirweb
             @venues = THE_DB.get_all_venue
 			if rehearsal_details.count > 0
 				@rehearsal_detail = rehearsal_details[0]
+                @rehearsal_dates = THE_DB.get_rehearsal_dates @rehearsal_detail['id']
 				erb :editor_rehearsal_detail, :layout => :editor_layout
 			else
 				redirect '/editor/rehearsals'
