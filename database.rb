@@ -385,9 +385,9 @@ module Choirweb
                 select $1 as concert_id
                      , 0  as billing_order
                      , coalesce(
-                          (select 1 + max(performance_order)
+                          (select 10 + max(performance_order)
                             from programme
-                           where concert_id = $1), 100) as performance_order
+                           where concert_id = $1), 10) as performance_order
                      , null as description
                      , false as is_heading
                      , false as is_interval
