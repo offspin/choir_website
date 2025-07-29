@@ -188,6 +188,7 @@ module Choirweb
 		get '/concert_detail/:id' do
 			concert_details = THE_DB.get_concert(params[:id])
             @venues = THE_DB.get_all_venue
+            @programme = THE_DB.get_programme(params[:id])
 			if concert_details.count > 0
 				@concert_detail = concert_details[0]
 				erb :editor_concert_detail, :layout => :editor_layout
@@ -205,6 +206,10 @@ module Choirweb
 						THE_DB.delete_concert params[:id]
 						redirect '/editor/concerts'
 					end
+                    if params[:create_programme]
+                        THE_DB.create_programme params[:id], request.env['REMOTE_USER']
+				        redirect "/editor/concert_detail/#{params[:id]}"
+                    end    
                     performed = ''
                     if params[:performed_date]
                         performed = params[:performed_date]
@@ -230,6 +235,45 @@ module Choirweb
 				redirect "/editor/concert_detail/#{params[:id]}"
 			end
 		end
+
+        get '/programme_detail/:id/:concert_id' do
+          programme_details = THE_DB.get_programme_detail params[:id]
+          @works = THE_DB.get_all_works
+          if programme_details.count > 0
+            @programme_detail = programme_details[0]
+            @programme_parts = THE_DB.get_programme_parts params[:id]
+            erb :editor_programme_detail, :layout => :editor_layout
+          else
+            redirect "/editor/concert_detail/#{params[:concert_id]}"
+          end
+        end
+
+        post '/programme_detail/:id/:concert_id' do
+          if params[:back]
+            redirect "/editor/concert_detail/#{params[:concert_id]}"
+          else
+            begin
+              if params[:delete]
+                THE_DB.delete_programme params[:id]
+                redirect "/editor/concert_detail/#{params[:concert_id]}"
+              end
+				THE_DB.update_programme params[:id], params[:description], 
+                        params[:performance_order], params[:billing_order], 
+                        params[:type], params[:work], request.env['REMOTE_USER']
+				rescue Exception => e
+					logger.error e.message
+					flash[:description] = params[:description]
+                    flash[:performance_order] = params[:performance_order]
+                    flash[:billing_order] = params[:billing_order]
+                    flash[:type] = params[:type]
+                    flash[:work] = params[:work]
+					flash[:error] = e.message
+				    redirect "/editor/programme_detail/#{params[:id]}/#{params[:concert_id]}"
+				end
+                redirect "/editor/concert_detail/#{params[:concert_id]}"
+          end
+
+        end
 
         get '/rehearsals' do
             @rehearsals = THE_DB.get_all_rehearsals

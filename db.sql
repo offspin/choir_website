@@ -36,6 +36,7 @@ COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statist
 --
 
 CREATE SEQUENCE public.concert_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -86,6 +87,7 @@ CREATE TABLE public.media (
 --
 
 CREATE SEQUENCE public.news_flash_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -117,11 +119,24 @@ CREATE TABLE public.person (
 
 
 --
+-- Name: programme_sequence; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.programme_sequence
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
 -- Name: programme; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.programme (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('public.programme_sequence'::regclass) NOT NULL,
     concert_id integer NOT NULL,
     billing_order integer NOT NULL,
     performance_order integer NOT NULL,
@@ -129,8 +144,22 @@ CREATE TABLE public.programme (
     work_id integer,
     is_heading boolean NOT NULL,
     is_interval boolean NOT NULL,
-    is_solo boolean
+    is_solo boolean,
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by character varying(20) NOT NULL
 );
+
+
+--
+-- Name: programme_part_sequence; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.programme_part_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 --
@@ -138,6 +167,7 @@ CREATE TABLE public.programme (
 --
 
 CREATE TABLE public.programme_part (
+    id integer DEFAULT nextval('public.programme_part_sequence'::regclass) NOT NULL,
     programme_id integer NOT NULL,
     part_order integer NOT NULL,
     description character varying(100) NOT NULL
@@ -149,6 +179,7 @@ CREATE TABLE public.programme_part (
 --
 
 CREATE SEQUENCE public.rehearsal_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -201,6 +232,7 @@ CREATE TABLE public.system_config (
 --
 
 CREATE SEQUENCE public.text_block_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -248,6 +280,7 @@ CREATE TABLE public.user_of_system (
 --
 
 CREATE SEQUENCE public.venue_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -273,6 +306,7 @@ CREATE TABLE public.venue (
 --
 
 CREATE SEQUENCE public.work_sequence
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -315,6 +349,14 @@ ALTER TABLE ONLY public.person
 
 ALTER TABLE ONLY public.programme
     ADD CONSTRAINT ak_programme UNIQUE (concert_id, performance_order);
+
+
+--
+-- Name: programme_part ak_programme_part; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.programme_part
+    ADD CONSTRAINT ak_programme_part UNIQUE (programme_id, part_order);
 
 
 --
@@ -370,7 +412,7 @@ ALTER TABLE ONLY public.programme
 --
 
 ALTER TABLE ONLY public.programme_part
-    ADD CONSTRAINT pk_programme_part PRIMARY KEY (programme_id, part_order);
+    ADD CONSTRAINT pk_programme_part PRIMARY KEY (id);
 
 
 --
@@ -467,6 +509,14 @@ ALTER TABLE ONLY public.programme
 
 ALTER TABLE ONLY public.programme_part
     ADD CONSTRAINT fk_programme_part_programme FOREIGN KEY (programme_id) REFERENCES public.programme(id);
+
+
+--
+-- Name: programme fk_programme_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.programme
+    ADD CONSTRAINT fk_programme_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
 
 
 --
@@ -571,6 +621,13 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme TO choirweb;
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme_part TO choirweb;
+
+
+--
+-- Name: TABLE rehearsal; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.rehearsal TO choirweb;
 
 
 --

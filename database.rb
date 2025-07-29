@@ -326,16 +326,101 @@ module Choirweb
             sql = <<-EOS
                 select p.id
                      , p.performance_order
+                     , p.billing_order
                      , p.description
                      , p.work_id
                      , p.is_heading
                      , p.is_interval
+                     , p.is_solo
                 from   programme as p
                 where  p.concert_id = $1
                 order by p.performance_order;
             EOS
 
             res = (@connection.exec sql, [concert_id]).to_a
+
+        end
+
+        def get_programme_detail(id)
+
+            sql = <<-EOS
+                select id
+                     , concert_id
+                     , performance_order
+                     , billing_order
+                     , description
+                     , work_id
+                     , case 
+                           when is_solo = true then 'Solo'
+                           when is_interval = true then 'Interval'
+                           when is_heading = true then 'Heading'
+                           else 'Choir'
+                       end as type
+                  from programme
+                 where id = $1;
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+
+        end
+
+        def delete_programme(id)
+            
+            sql = <<-EOS
+                delete from programme
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id]
+
+        end
+
+        def create_programme(concert_id, updated_by)
+
+            sql = <<-EOS
+                insert into programme
+                (concert_id, billing_order, performance_order,
+                 description, is_heading, is_interval, is_solo,
+                 updated, updated_by)
+                select $1 as concert_id
+                     , 0  as billing_order
+                     , coalesce(
+                          (select 1 + max(performance_order)
+                            from programme
+                           where concert_id = $1), 100) as performance_order
+                     , null as description
+                     , false as is_heading
+                     , false as is_interval
+                     , false as is_solo
+                     , current_timestamp as updated
+                     , $2 as updated_by;
+             EOS
+
+            @connection.exec sql, [concert_id, updated_by]
+
+        end
+
+        def update_programme(id, description, performance_order, billing_order,
+                             type, work_id, updated_by)
+
+            sql = <<-EOS
+                
+                update programme
+                   set billing_order = $2
+                     , performance_order = $3
+                     , description = nullif($4, '')
+                     , work_id = nullif($5, 0)
+                     , is_heading = ($6 = 'heading')
+                     , is_interval = ($6 = 'interval')
+                     , is_solo = ($6 = 'solo')
+                     , updated = current_timestamp
+                     , updated_by = $7
+                 where id = $1;
+
+            EOS
+
+            @connection.exec sql, [id, billing_order, performance_order,
+                                   description, work_id, type, updated_by]
 
         end
 

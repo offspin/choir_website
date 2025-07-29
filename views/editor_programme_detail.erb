@@ -1,0 +1,67 @@
+<form method="post">
+
+        <div class="error"> <%= flash[:error] %> </div>
+
+        <label for="Description">Description (should be of the form <em>Composer: Work</em>)</label></br>
+        <input type="text" id="description" name="description" size="100" maxlength="100"
+               value="<%= ERB::Util.html_escape(flash[:description] ? flash[:description] : @programme_detail['description']) %>" />
+        </input>
+        </p>
+
+        <label for="work">Link to description of work</label></br>
+        <select class="editor" id="work" name="work">
+          <option value="0">None</option>
+          <% @works.each do |w| %>
+            <%= '<option ' %>
+            <% if w['id'] == @programme_detail['work_id'] %>
+              <%= ' selected="selected" ' %>
+            <% end %>
+            <%= "value=\"#{w['id']}\">#{w['title']}</option>" %>
+          <% end %>
+        </select>
+        <p/>
+
+        <label for="performance_order">Performance order</label></br>
+        <input type="text" id="performance_order" name="performance_order" size="10" maxlength="10"
+               value="<%=flash[:performance_order] ? 
+                  flash[:performance_order] : @programme_detail['performance_order']%>" />
+        </input>
+        <p/>
+
+        <label for="billing_order">Billing order</label></br>
+        <input type="text" id="billing_order" name="billing_order" size="100" maxlength="100"
+               value="<%=flash[:billing_order] ? flash[:billing_order] : @programme_detail['billing_order']%>" />
+        </input>
+        <p/>
+
+        <% @types = ['Choir', 'Solo', 'Interval', 'Heading'] %>
+        <label for="type">Type</label></br>
+        <select class="editor" id="type" name="type">
+          <% @types.each do |t| %>
+            <%= '<option ' %>
+            <% if t == @programme_detail['type'] || t == flash[:type] %>
+              <%= ' selected="selected" ' %>
+            <% end %>
+            <%= "value=\"#{t.downcase}\">#{t}</option>" %>
+          <% end %>
+        </select>
+        </p>
+
+
+         <div class="editSection">
+           <table width="100%">
+             <tr>
+               <td width="33%" align="left">
+                 <input type="submit" id="save" name="save" value="Save Changes"/>
+               </td>
+               <td width="33%" align="center">
+                 <input type="submit" id="back" name="back" value="Back"/>
+               </td>
+               <td width="34%" align="right">
+                 <input type="submit" id="delete" name="delete" value="Delete"/>
+               </td>
+             </tr>
+           </table>
+         </div>
+
+</form>

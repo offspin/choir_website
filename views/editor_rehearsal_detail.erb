@@ -62,16 +62,17 @@
               </td>
             </tr>
           </table>
-        </td>
-        <td style="border: 1px solid #008000;">
-          <table class="timetable">
-          <% @rehearsal_dates.each do |d| %>
-            <tr>
-              <td class="timetable"><%= DateTime.parse(d['rs_date_time']).strftime('%A %d %B %Y') %></td>
-              <td class="timetable"><%= d['venue_name'] %></td>
-            </tr>
-          <% end %>
-        </table>
+        </div>
+      </td>
+      <td style="border: 1px solid #008000;">
+        <table class="timetable">
+        <% @rehearsal_dates.each do |d| %>
+          <tr>
+            <td class="timetable"><%= DateTime.parse(d['rs_date_time']).strftime('%A %d %B %Y') %></td>
+            <td class="timetable"><%= d['venue_name'] %></td>
+          </tr>
+        <% end %>
+      </table>
       </td>
     </tr>
   </table>
