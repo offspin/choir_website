@@ -145,14 +145,30 @@ CREATE TABLE public.programme_part (
 
 
 --
+-- Name: rehearsal_sequence; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.rehearsal_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
 -- Name: rehearsal; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.rehearsal (
+    id integer DEFAULT nextval('public.rehearsal_sequence'::regclass) NOT NULL,
     from_date date NOT NULL,
     to_date date NOT NULL,
     start_time time without time zone NOT NULL,
-    venue_id integer
+    venue_id integer,
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by character varying(20) NOT NULL,
+    CONSTRAINT cn_rehearsal_dates CHECK ((to_date >= from_date))
 );
 
 
@@ -302,6 +318,14 @@ ALTER TABLE ONLY public.programme
 
 
 --
+-- Name: rehearsal ak_rehearsal; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rehearsal
+    ADD CONSTRAINT ak_rehearsal UNIQUE (from_date);
+
+
+--
 -- Name: concert pk_concert; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -354,7 +378,7 @@ ALTER TABLE ONLY public.programme_part
 --
 
 ALTER TABLE ONLY public.rehearsal
-    ADD CONSTRAINT pk_rehearsal PRIMARY KEY (from_date);
+    ADD CONSTRAINT pk_rehearsal PRIMARY KEY (id);
 
 
 --
@@ -454,11 +478,11 @@ ALTER TABLE ONLY public.programme
 
 
 --
--- Name: rehearsal fk_rehearsal_venue; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rehearsal fk_rehearsal_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rehearsal
-    ADD CONSTRAINT fk_rehearsal_venue FOREIGN KEY (venue_id) REFERENCES public.venue(id);
+    ADD CONSTRAINT fk_rehearsal_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
 
 
 --
@@ -547,13 +571,6 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme TO choirweb;
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme_part TO choirweb;
-
-
---
--- Name: TABLE rehearsal; Type: ACL; Schema: public; Owner: -
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.rehearsal TO choirweb;
 
 
 --

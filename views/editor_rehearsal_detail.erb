@@ -1,0 +1,66 @@
+<form method="post">
+
+    <div class="error"> <%= flash[:error] %> </div>
+
+		<label for="from_date">First date in group (dd/MM/yyyy)</label></br>
+		<input class="editor" type="text" id="from_date" name="from_date" size="10" maxlength="10"
+                           value="<%=flash[:from_date] ? flash[:from_date] : 
+                           DateTime.parse(@rehearsal_detail['from_date']).strftime('%d/%m/%Y') %>" />
+		</input>
+        <span class="editor">
+          <%= flash[:dow_from_date] ? flash[:dow_from_date] : 
+              DateTime.parse(@rehearsal_detail['from_date']).strftime('%A')
+          %>
+        </span>
+        <p/>
+
+		<label for="to_date">Last date in group (dd/MM/yyyy)</label></br>
+		<input class="editor" type="text" id="to_date" name="to_date" size="10" maxlength="10"
+                           value="<%=flash[:to_date] ? flash[:to_date] : 
+                           DateTime.parse(@rehearsal_detail['to_date']).strftime('%d/%m/%Y') %>" />
+		</input>
+        <span class="editor"> 
+          <%= flash[:dow_to_date] ? flash[:dow_to_date] : 
+              DateTime.parse(@rehearsal_detail['to_date']).strftime('%A')
+          %>
+        </span>
+        </p>
+
+        <label for="start_tine">Start time (24 hour format)</label><br/>
+        <input class="editor" type="text" id="start_time" name="start_time" size="10" maxlength="10"
+               value="<%=flash[:start_time] ? flash[:start_time]
+               : DateTime.parse(@rehearsal_detail['start_time']).strftime('%H:%M') %>"/>
+        <p/>
+
+        <label for="venue">Venue</label></br>
+        <select class="editor" id="venue" name="venue">
+          <option value="0">TBC</option>
+          <% if @venues.count > 0 %>
+            <% @venues.each do |v| %>
+              <%= "<option " %>
+              <% if v['id'] == @rehearsal_detail['venue_id'] || v['id'] == flash[:venue] %>
+                <%= ' selected="selected" ' %>
+              <% end %>
+              <%= "value=\"#{v['id']}\">#{v['name']}</option>" %>
+            <% end %>
+          <% end %>
+        </select>
+        </p>
+
+
+    <div class="editSection">
+        <table width="100%">
+            <tr>
+                <td width="33%" align="left">
+                    <input type="submit" id="save" name="save" value="Save Changes"/>
+                </td>
+                <td width="33%" align="center">
+                    <input type="submit" id="back" name="back" value="Back"/>
+                </td>
+				<td width="34%" align="right">
+					<input type="submit" id="delete" name="delete" value="Delete"/>
+				</td>
+            </tr>
+        </table>
+    </div>
+</form>

@@ -1,0 +1,44 @@
+<div class="editMenu">
+    <table class="editor" width="100%">
+        <tr>
+            <th class="editor"/>
+            <th class="editor">Updated</th>
+            <th class="editor">By</th>
+            <th class="editor">From Date</th>
+            <th class="editor">To Date</th>
+            <th class="editor">Start Time</th>
+            <th class="editor">Venue</th>
+        </tr>
+        <% @rehearsals.each do |r| %>
+            <tr>
+                <td class="editor"><a href="<%= "/editor/rehearsal_detail/#{r['id']}" %>">Edit</a></td>
+                <td class="editor">
+                    <%= (DateTime.parse(r['updated'])).strftime('%d/%m/%Y %H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= r['updated_by'] %>
+                </td>
+                <td class="editor">
+                    <%= (DateTime.parse(r['from_date'])).strftime('%A %d/%m/%Y') %>
+                </td>
+                <td class="editor">
+                    <%= (DateTime.parse(r['to_date'])).strftime('%A %d/%m/%Y') %>
+                </td>
+                <td class="editor">
+                    <%= (DateTime.parse(r['start_time'])).strftime('%H:%M') %>
+                </td>
+                <td class="editor">
+                    <%= r['venue_name'] %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+<hr/>
+<div class="editMenu">
+    <p>
+	This page allows you to edit information about rehearsal groups.
+	<a href="/editor/rehearsals/new">Click here</a> to create a new rehearsal group.
+    </p>
+</div>
+

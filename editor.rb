@@ -186,10 +186,10 @@ module Choirweb
         end
 
 		get '/concert_detail/:id' do
-			concert_detail = THE_DB.get_concert(params[:id])
+			concert_details = THE_DB.get_concert(params[:id])
             @venues = THE_DB.get_all_venue
-			if concert_detail.count > 0
-				@concert_detail = concert_detail[0]
+			if concert_details.count > 0
+				@concert_detail = concert_details[0]
 				erb :editor_concert_detail, :layout => :editor_layout
 			else
 				redirect '/editor/concerts'
@@ -231,6 +231,50 @@ module Choirweb
 			end
 		end
 
+        get '/rehearsals' do
+            @rehearsals = THE_DB.get_all_rehearsals
+            erb :editor_rehearsals, :layout => :editor_layout
+        end
+
+        get '/rehearsal_detail/:id' do
+            rehearsal_details = THE_DB.get_rehearsal(params[:id])
+            @venues = THE_DB.get_all_venue
+			if rehearsal_details.count > 0
+				@rehearsal_detail = rehearsal_details[0]
+				erb :editor_rehearsal_detail, :layout => :editor_layout
+			else
+				redirect '/editor/rehearsals'
+			end
+        end
+
+        get '/rehearsals/new' do
+          THE_DB.create_rehearsal request.env['REMOTE_USER']
+          redirect '/editor/rehearsals'
+        end
+
+		post '/rehearsal_detail/:id' do
+			if params[:back]
+				redirect '/editor/rehearsals'
+			else
+				begin
+					if params[:delete]
+						THE_DB.delete_rehearsal params[:id]
+						redirect '/editor/rehearsals'
+					end
+					THE_DB.update_rehearsal params[:id], params[:from_date], params[:to_date], 
+                        params[:start_time], params[:venue], request.env['REMOTE_USER']
+				rescue Exception => e
+					logger.error e.message
+                    flash[:id] = params[:id]
+					flash[:from_date] = params[:from_date]
+                    flash[:to_date] = params[:to_date]
+                    flash[:start_time] = params[:start_time]
+                    flash[:venue] = params[:venue]
+					flash[:error] = e.message
+				end
+				redirect "/editor/rehearsal_detail/#{params[:id]}"
+			end
+		end
 
     end
 

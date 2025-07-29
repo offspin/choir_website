@@ -501,6 +501,88 @@ module Choirweb
 
         end
 
+        def get_all_rehearsals
+            
+            sql = <<-EOS
+                select rehearsal.id
+                     , rehearsal.from_date
+                     , rehearsal.to_date
+                     , rehearsal.venue_id
+                     , rehearsal.start_time
+                     , venue.name as venue_name
+                     , rehearsal.updated
+                     , rehearsal.updated_by
+                from rehearsal
+                 left join venue
+                    on rehearsal.venue_id = venue.id
+                order by from_date desc;
+            EOS
+
+            res = (@connection.exec sql).to_a
+
+        end
+
+        def get_rehearsal(id)
+
+            sql = <<-EOS
+                select id
+                     , from_date
+                     , to_date
+                     , venue_id
+                     , start_time
+                     , updated
+                     , updated_by
+                 from rehearsal
+                where id = $1;
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+
+        end
+
+        def create_rehearsal(updated_by)
+
+            sql = <<-EOS
+
+                insert into rehearsal
+                (from_date, to_date, start_time, updated, updated_by)
+                values
+                (current_timestamp, current_timestamp, current_timestamp, current_timestamp, $1)
+
+            EOS
+
+            connection.exec sql, [updated_by]
+
+        end
+
+        def update_rehearsal(id, from_date, to_date, start_time, venue_id, updated_by)
+            
+            sql = <<-EOS
+                update rehearsal
+                set from_date = $2
+                  , to_date = $3
+                  , start_time = $4
+                  , venue_id = nullif($5, 0)
+                  , updated = current_timestamp
+                  , updated_by = $6
+                where id = $1;
+            EOS
+
+            @connection.exec sql, [id, from_date, to_date, start_time, venue_id, updated_by]
+
+        end
+
+		def delete_rehearsal (id)
+
+			sql = <<-EOS
+				delete from rehearsal
+				 where id = $1;
+			EOS
+
+			@connection.exec sql, [id]
+
+		end
+
         def get_timetable
 
             sql = <<-EOS
