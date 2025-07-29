@@ -170,7 +170,9 @@ CREATE TABLE public.programme_part (
     id integer DEFAULT nextval('public.programme_part_sequence'::regclass) NOT NULL,
     programme_id integer NOT NULL,
     part_order integer NOT NULL,
-    description character varying(100) NOT NULL
+    description character varying(100),
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by character varying(20) NOT NULL
 );
 
 
@@ -509,6 +511,14 @@ ALTER TABLE ONLY public.programme
 
 ALTER TABLE ONLY public.programme_part
     ADD CONSTRAINT fk_programme_part_programme FOREIGN KEY (programme_id) REFERENCES public.programme(id);
+
+
+--
+-- Name: programme_part fk_programme_part_user_of_system; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.programme_part
+    ADD CONSTRAINT fk_programme_part_user_of_system FOREIGN KEY (updated_by) REFERENCES public.user_of_system(name);
 
 
 --

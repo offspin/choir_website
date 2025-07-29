@@ -1,0 +1,35 @@
+<form method="post">
+
+        <div class="error"> <%= flash[:error] %> </div>
+
+        <label for="part_order">Part order</label></br>
+        <input type="text" id="part_order" name="part_order" size="10" maxlength="10"
+               value="<%=flash[:part_order] ? 
+                  flash[:part_order] : @programme_part_detail['part_order']%>" />
+        </input>
+        <p/>
+
+        <label for="Description">Description</label></br>
+        <input type="text" id="description" name="description" size="100" maxlength="100"
+               value="<%= ERB::Util.html_escape(flash[:description] ? flash[:description] : 
+               @programme_part_detail['description']) %>" />
+        </input>
+        </p>
+
+         <div class="editSection">
+           <table width="100%">
+             <tr>
+               <td width="33%" align="left">
+                 <input type="submit" id="save" name="save" value="Save Changes"/>
+               </td>
+               <td width="33%" align="center">
+                 <input type="submit" id="back" name="back" value="Back"/>
+               </td>
+               <td width="34%" align="right">
+                 <input type="submit" id="delete" name="delete" value="Delete"/>
+               </td>
+             </tr>
+           </table>
+         </div>
+
+</form>

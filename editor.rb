@@ -249,15 +249,19 @@ module Choirweb
         end
 
         post '/programme_detail/:id/:concert_id' do
-          if params[:back]
-            redirect "/editor/concert_detail/#{params[:concert_id]}"
-          else
-            begin
-              if params[:delete]
-                THE_DB.delete_programme params[:id]
+            if params[:back]
                 redirect "/editor/concert_detail/#{params[:concert_id]}"
-              end
-				THE_DB.update_programme params[:id], params[:description], 
+            else
+                begin
+                    if params[:delete]
+                        THE_DB.delete_programme params[:id]
+                        redirect "/editor/concert_detail/#{params[:concert_id]}"
+                    end
+                    if params[:create_programme_part]
+                        THE_DB.create_programme_part params[:id], request.env['REMOTE_USER']
+                        redirect "/editor/programme_detail/#{params[:id]}/#{params[:concert_id]}"
+                    end
+                    THE_DB.update_programme params[:id], params[:description], 
                         params[:performance_order], params[:billing_order], 
                         params[:type], params[:work], request.env['REMOTE_USER']
 				rescue Exception => e
@@ -271,8 +275,42 @@ module Choirweb
 				    redirect "/editor/programme_detail/#{params[:id]}/#{params[:concert_id]}"
 				end
                 redirect "/editor/concert_detail/#{params[:concert_id]}"
-          end
+            end
 
+        end
+
+        get '/programme_part_detail/:id/:programme_id/:concert_id' do
+            programme_part_details = THE_DB.get_programme_part_detail params[:id]
+            if programme_part_details.count > 0
+                @programme_part_detail = programme_part_details[0]
+                erb :editor_programme_part_detail, :layout => :editor_layout
+            else
+                redirect "/editor/programme_detail/#{params[:programme_id]}/#{params[:concert_id]}"
+            end
+        end
+
+        post '/programme_part_detail/:id/:programme_id/:concert_id' do
+
+            if params[:back]
+                redirect "/editor/programme_detail/#{params[:programme_id]}/#{params[:concert_id]}"
+            else
+                begin
+                    if params[:delete]
+                    THE_DB.delete_programme_part params[:id]
+                    redirect "/editor/programme_detail/#{params[:programme_id]}/#{params[:concert_id]}"
+                end
+                THE_DB.update_programme_part params[:id], params[:part_order],
+                    params[:description], request.env['REMOTE_USER']
+                rescue Exception => e
+                    logger.error e.message
+                    flash[:part_order] = params[:part_order]
+                    flash[:description] = params[:description]
+                    flash[:error] = e.message
+                    redirect "/editor/programme_part_detail/#{params[:id]}/#{params[:programme_id]}/#{params[:concert_id]}"
+                end
+            end
+
+            redirect "/editor/programme_detail/#{params[:programme_id]}/#{params[:concert_id]}"
         end
 
         get '/rehearsals' do

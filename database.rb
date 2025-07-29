@@ -427,7 +427,8 @@ module Choirweb
         def get_programme_parts(programme_id)
 
             sql = <<-EOS
-                select pp.part_order
+                select pp.id
+                     , pp.part_order
                      , pp.description
                 from   programme_part as pp
                 where  pp.programme_id = $1
@@ -435,6 +436,66 @@ module Choirweb
             EOS
 
             res = (@connection.exec sql, [programme_id]).to_a
+
+        end
+
+        def create_programme_part(programme_id, updated_by)
+
+            sql = <<-EOS
+                insert into programme_part
+                (programme_id, part_order, description, updated_by)
+                select $1 as programme_id
+                     , coalesce(
+                          (select 10 + max(part_order)
+                            from programme_part
+                           where programme_id = $1), 10) as part_order
+                     , null as description
+                     , $2 as updated_by;
+            EOS
+
+            @connection.exec sql, [programme_id, updated_by]
+
+        end
+
+        def get_programme_part_detail(id)
+
+            sql = <<-EOS
+                select id
+                     , programme_id
+                     , part_order
+                     , description
+                     , updated
+                     , updated_by
+                  from programme_part
+                 where id = $1;
+            EOS
+
+            res = (@connection.exec sql, [id]).to_a
+                       
+        end
+
+        def delete_programme_part(id)
+            
+            sql = <<-EOS
+                delete from programme_part
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id]
+
+        end
+
+        def update_programme_part(id, part_order, description, updated_by)
+
+            sql = <<-EOS
+                update programme_part
+                   set part_order = $2
+                     , description = nullif($3, '')
+                     , updated_by = $4
+                 where id = $1;
+            EOS
+
+            @connection.exec sql, [id, part_order, description, updated_by]
 
         end
 

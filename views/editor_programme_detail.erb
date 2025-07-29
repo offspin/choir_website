@@ -1,5 +1,8 @@
 <form method="post">
 
+  <table class="editor" width="100%">
+    <tr>
+      <td width="40%" style="border: 1px solid #008000;" >
         <div class="error"> <%= flash[:error] %> </div>
 
         <label for="Description">Description (should be of the form <em>Composer: Work</em>)</label></br>
@@ -63,5 +66,28 @@
              </tr>
            </table>
          </div>
-
+      </td>
+      <td style="Border: 1px solid #008000;">
+        <table class="editor" width="100%">
+          <tr height="2em">
+            <td class="editor" colspan="5" align="center">
+               <input type="submit" id="create_programme_part" name="create_programme_part" value="Create programme part"/>
+            </td>
+          <tr>
+            <th class="editor"/>
+            <th class="editor">Part order </th>
+            <th class="editor">Description</th>
+          </tr>
+          <% @programme_parts.each do |pp| %>
+            <tr>
+              <td class="editor">
+                <a href="<%= "/editor/programme_part_detail/#{pp['id']}/#{@programme_detail['id']}/#{@programme_detail['concert_id']}" %>">
+                   Edit</a></td>
+              <td class="editor"><%= pp['part_order'] %></td>
+              <td class="editor"><%= pp['description'] %></td>
+            </tr>
+          <% end %>
+      </td>
+    </tr>
+  </table>
 </form>
