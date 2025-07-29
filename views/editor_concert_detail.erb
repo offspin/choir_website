@@ -1,88 +1,94 @@
 <form method="post">
 
-    <div class="error"> <%= flash[:error] %> </div>
+  <div class="error"> <%= flash[:error] %> </div>
 
-		<label for="title">Title</label></br>
-		<input type="text" id="title" name="title" size="50" maxlength="50"
-			value="<%=flash[:title] ? flash[:title] : @concert_detail['title']%>" />
-		</input>
-        </p>
+  <label for="title">Title</label></br>
+  <input type="text" id="title" name="title" size="50" maxlength="50"
+         value="<%=flash[:title] ? flash[:title] : @concert_detail['title']%>" />
+  </input>
+  </p>
 
-        <label for="venue">Venue</label></br>
-        <select class="editor" id="venue" name="venue">
-          <option value="0">TBC</option>
-          <% if @venues.count > 0 %>
-            <% @venues.each do |v| %>
-              <%= "<option " %>
-              <% if v['name'] == @concert_detail['venue_name'] || v['id'] == flash[:venue] %>
-                <%= ' selected="selected" ' %>
-              <% end %>
-              <%= "value=\"#{v['id']}\">#{v['name']}</option>" %>
-            <% end %>
-          <% end %>
-        </select>
-        </p>
+  <label for="venue">Venue</label></br>
+  <select class="editor" id="venue" name="venue">
+    <option value="0">TBC</option>
+    <% if @venues.count > 0 %>
+      <% @venues.each do |v| %>
+        <%= "<option " %>
+        <% if v['name'] == @concert_detail['venue_name'] || v['id'] == flash[:venue] %>
+          <%= ' selected="selected" ' %>
+        <% end %>
+        <%= "value=\"#{v['id']}\">#{v['name']}</option>" %>
+      <% end %>
+    <% end %>
+  </select>
+  </p>
 
-		<label for="sub_title">Sub-title</label></br>
-		<input type="text" id="sub_title" name="sub_title" size="50" maxlength="50"
-			value="<%=flash[:sub_title] ? flash[:sub_title] : @concert_detail['sub_title']%>" />
-		</input>
-		<p/>
+  <label for="sub_title">Sub-title</label></br>
+  <input type="text" id="sub_title" name="sub_title" size="50" maxlength="50"
+         value="<%=flash[:sub_title] ? flash[:sub_title] : @concert_detail['sub_title']%>" />
+  </input>
+  <p/>
 
-		<label for="pricing">Pricing</label></br>
-		<input type="text" id="pricing" name="pricing" size="100" maxlength="100"
-			value="<%=flash[:pricing] ? flash[:pricing] : @concert_detail['pricing']%>" />
-		</input>
-		<p/>
+  <label for="pricing">Pricing</label></br>
+  <input type="text" id="pricing" name="pricing" size="100" maxlength="100"
+         value="<%=flash[:pricing] ? flash[:pricing] : @concert_detail['pricing']%>" />
+  </input>
+  <p/>
 
-		<label for="friendly_url">Friendly URL (this is the concert label displayed in the URL bar)</label></br>
-		<input type="text" id="friendly_url" name="friendly_url" size="100" maxlength="100"
-			value="<%=flash[:friendly_url] ? flash[:friendly_url] : @concert_detail['friendly_url']%>" />
-		</input>
-		<p/>
+  <label for="friendly_url">Friendly URL (this is the concert label displayed in the URL bar)</label></br>
+  <input type="text" id="friendly_url" name="friendly_url" size="100" maxlength="100"
+         value="<%=flash[:friendly_url] ? flash[:friendly_url] : @concert_detail['friendly_url']%>" />
+  </input>
+  <p/>
 
-        <label for="performed_date">Date of performance (dd/mm/yyyy)</label>
-        <input class="editor" type="text" id="performed_date" name="performed_date"
-               value="<%=flash[:performed_date] ? flash[:performed_date] 
-                      : @concert_detail['performed'] != nil ? (DateTime.parse(@concert_detail['performed'])).strftime('%d/%m/%Y') : '' %>"/>
+  <label for="performed_date">Date of performance (dd/mm/yyyy)</label>
+  <input class="editor" type="text" id="performed_date" name="performed_date" size="10" maxlength="10"
+         value="<%=flash[:performed_date] ? flash[:performed_date] :
+                     @concert_detail['performed'] != nil ? 
+                     (DateTime.parse(@concert_detail['performed'])).strftime('%d/%m/%Y') : '' %>"/>
+  <p/>
 
-        <label for="performed_time">Time of performance (24 hour format)</label>
-        <input class="editor" type="text" id="performed_time" name="performed_time"
-               value="<%=flash[:performed_time] ? flash[:performed_time]
-               : @concert_detail['performed'] != nil ? (DateTime.parse(@concert_detail['performed'])).strftime('%H:%M') : '' %>"/>
-        <p/>
+  <label for="performed_time">Time of performance (24 hour format)</label>
+  <input class="editor" type="text" id="performed_time" name="performed_time" size="10" maxlength="10"
+         value="<%=flash[:performed_time] ? flash[:performed_time] : 
+                     @concert_detail['performed'] != nil ? 
+                     (DateTime.parse(@concert_detail['performed'])).strftime('%H:%M') : '' %>"/>
+  <p/>
 
-        <label for="description">Description:</label><br/>
-        <textarea id="description" name="description" rows="6" cols="80">
-            <%=flash[:description] ? flash[:description] : @concert_detail['description']%>
-        </textarea>
+  <label for="description">Description:</label><br/>
+  <textarea id="description" name="description" rows="6" cols="80">
+    <%=flash[:description] ? flash[:description] : @concert_detail['description']%>
+  </textarea>
 
-        <script type="text/javascript">
-                CKEDITOR.replace('description',
-                        {toolbarGroups: [ 
-                            {name: 'clipboard', groups:['clipboard','undo']},
-                            {name: 'basicstyles', groups:['basicstyles','cleanup']},
-                            {name: 'paragraph', groups:['list','indent','blocks','align','bidi']},
-                            {name: 'links'},
-                            {name: 'insert'},
-                            {name: 'document', groups:['mode']}
+  <script type="text/javascript">
 
-                        ]});
-        </script>
+    CKEDITOR.replace('description',
+                     {toolbarGroups: [ 
+                       {name: 'clipboard', groups:['clipboard','undo']},
+                       {name: 'basicstyles', groups:['basicstyles','cleanup']},
+                       {name: 'paragraph', groups:['list','indent','blocks','align','bidi']},
+                       {name: 'links'},
+                       {name: 'insert'},
+                       {name: 'document', groups:['mode']}
+                      ]
+                     }
+                    );
+   </script>
 
-    <div class="editSection">
-        <table width="100%">
-            <tr>
-                <td width="33%" align="left">
-                    <input type="submit" id="save" name="save" value="Save Changes"/>
-                </td>
-                <td width="33%" align="center">
-                    <input type="submit" id="back" name="back" value="Back"/>
-                </td>
-				<td width="34%" align="right">
-					<input type="submit" id="delete" name="delete" value="Delete"/>
-				</td>
-            </tr>
-        </table>
-    </div>
+   <div class="editSection">
+     <table width="100%">
+       <tr>
+         <td width="33%" align="left">
+           <input type="submit" id="save" name="save" value="Save Changes"/>
+         </td>
+         <td width="33%" align="center">
+           <input type="submit" id="back" name="back" value="Back"/>
+         </td>
+         <td width="34%" align="right">
+           <input type="submit" id="delete" name="delete" value="Delete"/>
+         </td>
+       </tr>
+     </table>
+   </div>
+
 </form>
