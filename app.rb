@@ -270,7 +270,7 @@ module Choirweb
                 c['htm_title'] = c['title']
 
                 if c['has_programme'] == 't'
-                    c['htm_title'] = "<a href=\"/concerts/#{c['friendly_url']}\" target=\"_blank\">#{c['title']}</a>"
+                    c['htm_title'] = "<a href=\"/concerts/#{c['friendly_url']}\">#{c['title']}</a>"
                 end
 
             end
@@ -421,7 +421,7 @@ module Choirweb
 
                 if r['item_type'] == 'Concert'&& r['has_programme'] == 't'
                     r['htm_item_type'] = 
-                      "<a href=\"/concerts/#{r['concert_id']}\" target=\"_blank\">#{r['item_type']}</a>"
+                      "<a href=\"/concerts/#{r['concert_id']}\">#{r['item_type']}</a>"
                 end
 
             end
