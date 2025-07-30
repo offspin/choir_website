@@ -117,7 +117,7 @@ module Choirweb
 					if params[:delete]
 						THE_DB.delete_work params[:id]
 						redirect '/editor/works'
-					elsif params[:title] !~ /\w+: \w+/
+                    elsif params[:title] !~ /^[^:]*: [^ ]+.*$/
 						raise "Title must be of the form Composer: Work"
 					end
 					THE_DB.update_work params[:id], params[:title], params[:description], request.env['REMOTE_USER']
@@ -261,6 +261,9 @@ module Choirweb
                         THE_DB.create_programme_part params[:id], request.env['REMOTE_USER']
                         redirect "/editor/programme_detail/#{params[:id]}/#{params[:concert_id]}"
                     end
+                    if params[:description] !~ /^[^:]*: [^ ]+.*$/
+						raise "Description must be of the form Composer: Work"
+					end
                     THE_DB.update_programme params[:id], params[:description], 
                         params[:performance_order], params[:billing_order], 
                         params[:type], params[:work], request.env['REMOTE_USER']
