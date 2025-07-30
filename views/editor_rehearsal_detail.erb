@@ -2,7 +2,7 @@
 
   <table class="editor" width="100%">
     <tr>
-      <td width="40%" style="border: 1px solid #008000;" >
+      <td width="40%" class="editor" >
         <div class="error"> <%= flash[:error] %> </div>
         <label for="from_date">First date in group (dd/MM/yyyy)</label></br>
         <input class="editor" type="text" id="from_date" name="from_date" size="10" maxlength="10"
@@ -64,7 +64,7 @@
           </table>
         </div>
       </td>
-      <td style="border: 1px solid #008000;">
+      <td class="editor" >
         <table class="timetable">
         <% @rehearsal_dates.each do |d| %>
           <tr>
