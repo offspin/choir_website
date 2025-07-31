@@ -34,7 +34,6 @@ module Choirweb
                 THE_DB.reconnect
             end
 
-            get_music_roles
             get_recent_works
             get_next_concerts
             get_past_concerts 
@@ -50,18 +49,6 @@ module Choirweb
             @news_flash = get_news_flash
             @home_text = get_current_text_block 'HOME'
             erb :index
-        end
-
-        get '/people/:id' do
-
-            get_person(params[:id])
-
-            if @person
-                erb :people 
-            else
-                redirect url('/')
-            end
-
         end
 
         get %r{/concerts/([0-9]+)} do |id|
@@ -180,23 +167,6 @@ module Choirweb
         get '/past_concerts' do
             get_past_concerts 
             erb :past_concerts
-        end
-
-        def get_music_roles
-
-            @music_roles = THE_DB.get_roles 'Music'
-
-            @music_roles.each do |mr|
-                
-                mr['htm_person_name'] = mr['person_name']
-
-                if mr['has_description'] == 't'
-                    mr['htm_person_name'] = 
-                        "<a href=\"/people/#{mr['person_id']}\">#{mr['htm_person_name']}</a>"
-                end
-
-            end
-
         end
 
         def get_recent_works
@@ -319,9 +289,6 @@ module Choirweb
                 end
                 @concert['programme'] = programme
 
-                images = THE_DB.get_images id, 'concert', @is_mobile ? 2 : 3
-                @concert['images'] = images
-
 
             end
 
@@ -335,32 +302,12 @@ module Choirweb
 
         end
 
-        def get_person(id)
-
-            people = THE_DB.get_person id
-
-            if people.count > 0
-                @person = people[0]
-
-                images = THE_DB.get_images id, 'person', @is_mobile ? 2 : 3
-                @person['images'] = images
-
-                roles = THE_DB.get_person_roles id
-                @person['roles'] = roles
-            end
-
-        end
-
         def get_work(id)
 
             works = THE_DB.get_work id
 
             if works.count > 0
                 @work = works[0]
-
-                media = THE_DB.get_media id, 'work', @is_mobile ? 2 : 3
-                @work['media'] = media
-
             end
 
         end

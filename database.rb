@@ -163,26 +163,6 @@ module Choirweb
 
         end
 
-        def get_roles(type)
-
-            sql = <<-EOS
-                select role.name as role_name
-                     , person.name as person_name
-                     , role.person_id
-                     , case when person.description is not null
-                              then 't'::boolean else 'f'::boolean 
-                       end as has_description
-                from   role
-                 inner join person 
-                  on role.person_id = person.id
-                where  type = $1
-                order by priority;
-            EOS
-
-            res = (@connection.exec sql, [ type ]).to_a
-
-        end
-
         def get_recent_works(work_count, max_per_concert)
 
             sql = <<-EOS
@@ -219,69 +199,6 @@ module Choirweb
 
             end
 
-        def get_person(id)
-
-            sql = <<-EOS
-               select p.id 
-                    , p.name 
-                    , p.description
-               from person as p
-               where id = $1;
-            EOS
-
-            res = (@connection.exec sql, [id]).to_a
-
-        end
-
-        def get_person_roles(id)
-            
-            sql = <<-EOS
-                select r.name
-                     , r.type
-                from   role as r
-                where  r.person_id = $1
-                order by r.priority
-            EOS
-
-            res = (@connection.exec sql, [id]).to_a
-
-        end
-
-        def get_media(source_id, source_type, count)
-
-            sql = <<-EOS
-                select m.media_type
-                     , m.thumb_location
-                     , m.location
-                     , m.caption
-                from   media as m
-                where  m.source_type = $2
-                and    m.source_id = $1
-                order by m.display_order
-                limit $3;
-            EOS
-
-            res = (@connection.exec sql, [source_id, source_type, count]).to_a
-
-        end
-
-        def get_images(source_id, source_type, count)
-
-            sql = <<-EOS
-                select m.thumb_location
-                     , m.location
-                     , m.caption
-                from   media as m
-                where  m.source_type = $2
-                and    m.source_id = $1
-                and    m.media_type = 'image'
-                order by m.display_order
-                limit $3;
-            EOS
-
-            res = (@connection.exec sql, [source_id, source_type, count]).to_a
-
-        end
 
         def get_concert(id)
 
@@ -293,6 +210,7 @@ module Choirweb
                      , concert.description
                      , concert.performed
                      , concert.friendly_url
+                     , concert.poster_image_file
                      , concert.venue_id as venue_id
                      , venue.name as venue_name
                      , venue.map_url as venue_map_url
@@ -499,30 +417,13 @@ module Choirweb
 
         end
 
-        def get_concert_images(concert_id, count)
-
-            sql = <<-EOS
-                select m.thumb_location
-                     , m.location
-                     , m.caption
-                from   media as m
-                where  m.source_type = 'concert'
-                and    m.source_id = $1
-                and    m.media_type = 'image'
-                order by m.display_order
-                limit $2;
-            EOS
-
-            res = (@connection.exec sql, [concert_id, count]).to_a
-
-        end
-
         def get_work(id)
 
             sql = <<-EOS
                 select w.id
                      , w.title
                      , w.description
+                     , w.composer_image_file
                 from   work as w
                 where  w.id = $1;
             EOS

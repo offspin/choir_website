@@ -64,7 +64,7 @@ body td
 }
 .supplementary td
 {
-    list-style-image: url('/images/bullet.jpg');
+    list-style-image: url('/images/site/bullet.jpg');
     font-size: 0.8em;
     border-left: 1px solid #006600;
     border-bottom: 1px dotted #006600;

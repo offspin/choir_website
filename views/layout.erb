@@ -77,23 +77,6 @@
             <td class="supplementary">
                 <table width="100%">
 
-                    <% if @music_roles.count > 0 %>
-                        <tr><td><strong>Musical leaders:</strong>
-                        <ul>
-
-                        <% @music_roles.each do |r| %>
-
-                            <li><%= r['role_name'] %>: <%= r['htm_person_name'] %> </li>
-
-                        <% end %>
-
-                       </ul>
-
-                       </td></tr>
-
-                    <% end %>
-
-
                     <% if @recent_works.count > 0 %>
 
                         <tr><td><strong>Recently performed works:</strong>

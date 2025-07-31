@@ -62,23 +62,8 @@ CREATE TABLE public.concert (
     venue_id integer,
     friendly_url character varying(200),
     updated timestamp without time zone DEFAULT now() NOT NULL,
-    updated_by character varying(20) NOT NULL
-);
-
-
---
--- Name: media; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.media (
-    id integer NOT NULL,
-    source_id character varying(11) NOT NULL,
-    source_type character varying(20) NOT NULL,
-    media_type character varying(20) NOT NULL,
-    display_order integer NOT NULL,
-    caption character varying(100),
-    location character varying(1000) NOT NULL,
-    thumb_location character varying(1000)
+    updated_by character varying(20) NOT NULL,
+    poster_image_file character varying(100)
 );
 
 
@@ -325,7 +310,8 @@ CREATE TABLE public.work (
     title character varying(100) NOT NULL,
     description text,
     updated timestamp without time zone DEFAULT now() NOT NULL,
-    updated_by character varying(20) NOT NULL
+    updated_by character varying(20) NOT NULL,
+    composer_image_file character varying(100)
 );
 
 
@@ -375,14 +361,6 @@ ALTER TABLE ONLY public.rehearsal
 
 ALTER TABLE ONLY public.concert
     ADD CONSTRAINT pk_concert PRIMARY KEY (id);
-
-
---
--- Name: media pk_media; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.media
-    ADD CONSTRAINT pk_media PRIMARY KEY (id);
 
 
 --
@@ -582,13 +560,6 @@ ALTER TABLE ONLY public.work
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.concert TO choirweb;
-
-
---
--- Name: TABLE media; Type: ACL; Schema: public; Owner: -
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.media TO choirweb;
 
 
 --

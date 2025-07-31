@@ -3,15 +3,15 @@
         <tr>
             <td class="pictures" align="center">
                 <table id="gallery">
+                  <% if @concert['poster_image_file'] %>
                     <tr>
-                        <% @concert['images'].each do |i| %>
-                            <td>
-                             <a href="<%= i['location'] %>">
-                                 <img src="<%= i['thumb_location'] %>"/>
-                             </a>
-                            </td>
-                        <% end %>
+                        <td>
+                          <a href="<%= "/images/content/#{@concert['poster_image_file']}" %>">
+                            <img src="<%= "/images/content/thumbnail/#{@concert['poster_image_file']}" %>"/>
+                         </a>
+                        </td>
                     </tr>
+                  <% end %>
                 </table>
             </td>
         </tr>
