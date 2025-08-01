@@ -263,7 +263,8 @@ module Choirweb
                         THE_DB.create_programme_part params[:id], request.env['REMOTE_USER']
                         redirect "/editor/programme_detail/#{params[:id]}/#{params[:concert_id]}"
                     end
-                    if params[:description] !~ /^[^:]*: [^ ]+.*$/
+                    if ['choir', 'solo'].include?(params[:type]) && 
+                        params[:description] !~ /^[^:]*: [^ ]+.*$/
 						raise "Description must be of the form Composer: Work"
 					end
                     THE_DB.update_programme params[:id], params[:description], 
