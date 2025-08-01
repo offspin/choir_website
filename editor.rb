@@ -189,6 +189,7 @@ module Choirweb
 			concert_details = THE_DB.get_concert(params[:id])
             @venues = THE_DB.get_all_venue
             @programme = THE_DB.get_programme(params[:id])
+            @files = get_files('./public/images/content') 
 			if concert_details.count > 0
 				@concert_detail = concert_details[0]
 				erb :editor_concert_detail, :layout => :editor_layout
@@ -220,7 +221,7 @@ module Choirweb
 					THE_DB.update_concert params[:id], params[:title], 
                         params[:sub_title], params[:pricing], params[:venue], 
                         performed, params[:friendly_url], params[:description], 
-                        request.env['REMOTE_USER']
+                        request.env['REMOTE_USER'], params[:poster_image_file]
 				rescue Exception => e
 					logger.error e.message
 					flash[:title] = params[:title]
@@ -229,6 +230,7 @@ module Choirweb
                     flash[:performed_date] = params[:performed_date]
                     flash[:performed_time] = params[:performed_time]
                     flash[:friendly_url] = params[:friendly_url]
+                    flash[:poster_image_file] = params[:poster_image_file]
 					flash[:description] = params[:description]
 					flash[:error] = e.message
 				end
@@ -361,6 +363,11 @@ module Choirweb
 				redirect "/editor/rehearsal_detail/#{params[:id]}"
 			end
 		end
+
+        def get_files dir
+          (Dir.entries(dir).select {|f| File.file? File.join(dir, f)}).sort
+        end
+            
 
     end
 

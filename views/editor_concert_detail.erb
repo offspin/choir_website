@@ -45,18 +45,33 @@
         <p/>
 
         <label for="performed_date">Date of performance (dd/mm/yyyy)</label>
-        <input class="editor" type="text" id="performed_date" name="performed_date" size="10" maxlength="10"
+        <input type="text" id="performed_date" name="performed_date" size="10" maxlength="10"
                value="<%=flash[:performed_date] ? flash[:performed_date] :
                            @concert_detail['performed'] != nil ? 
                            (DateTime.parse(@concert_detail['performed'])).strftime('%d/%m/%Y') : '' %>"/>
         <p/>
 
         <label for="performed_time">Time of performance (24 hour format)</label>
-        <input class="editor" type="text" id="performed_time" name="performed_time" size="10" maxlength="10"
+        <input type="text" id="performed_time" name="performed_time" size="10" maxlength="10"
                value="<%=flash[:performed_time] ? flash[:performed_time] : 
                            @concert_detail['performed'] != nil ? 
                            (DateTime.parse(@concert_detail['performed'])).strftime('%H:%M') : '' %>"/>
         <p/>
+
+        <label for="poster_image_file">Poster image file</label>
+        <select class="editor" id="poster_image_file" name="poster_image_file">
+          <option value="">None</option>
+          <% if @files.count > 0 %>
+            <% @files.each do |f| %>
+              <%= "<option " %>
+              <% if f == @concert_detail['poster_image_file'] || f == flash[:poster_image_file] %>
+                <%= ' selected="selected" ' %>
+              <% end %>
+              <%= "value=\"#{f}\">#{f}</option>" %>
+            <% end %>
+          <% end %>
+        </select>
+        </p>
 
         <label for="description">Description:</label><br/>
         <textarea id="description" name="description" rows="6" cols="80">
@@ -95,6 +110,7 @@
          </div>
       </td>
       <td class="editor">
+        <table class="editor" width="100%>
         <table class="editor" width="100%">
           <tr height="2em">
             <td class="editor" colspan="5" align="center">

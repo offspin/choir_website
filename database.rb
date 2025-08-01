@@ -114,7 +114,8 @@ module Choirweb
         end
 
         def update_concert(id, title, sub_title, pricing, venue_id,
-                           performed, friendly_url, description, updated_by)
+                           performed, friendly_url, description, updated_by,
+                           poster_image_file)
             
             sql = <<-EOS
                 update concert
@@ -125,13 +126,15 @@ module Choirweb
                   , performed = case when $6 = '' then null::timestamp else $6::timestamp end
                   , friendly_url = nullif($7, '')
                   , description = nullif($8, '')
+                  , poster_image_file = nullif($10, '')
                   , updated = current_timestamp
                   , updated_by = $9
                 where id = $1;
             EOS
 
             @connection.exec sql, [id, title, sub_title, pricing, venue_id,
-                                   performed, friendly_url, description, updated_by]
+                                   performed, friendly_url, description, updated_by,
+                                   poster_image_file]
 
         end
 
