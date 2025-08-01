@@ -836,18 +836,19 @@ module Choirweb
 
         end
 
-		def update_work (id, title, description, updated_by)
+		def update_work (id, title, description, updated_by, composer_image_file)
 
 			sql = <<-EOS
 				update work
 				   set title = $2
 				     , description = $3
+                     , composer_image_file = nullif($5, '')
 					 , updated = CURRENT_TIMESTAMP
 					 , updated_by = $4
 				 where id = $1;
 			EOS
 
-			@connection.exec sql, [id, title, description, updated_by]
+			@connection.exec sql, [id, title, description, updated_by, composer_image_file]
 
 		end
 

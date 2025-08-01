@@ -103,6 +103,7 @@ module Choirweb
 			work_detail = THE_DB.get_work(params[:id])
 			if work_detail.count > 0
 				@work_detail = work_detail[0]
+                @files = get_files('./public/images/content') 
 				erb :editor_work_detail, :layout => :editor_layout
 			else
 				redirect '/editor/works'
@@ -120,11 +121,14 @@ module Choirweb
                     elsif params[:title] !~ /^[^:]*: [^ ]+.*$/
 						raise "Title must be of the form Composer: Work"
 					end
-					THE_DB.update_work params[:id], params[:title], params[:description], request.env['REMOTE_USER']
+					THE_DB.update_work params[:id], params[:title], 
+                           params[:description], request.env['REMOTE_USER'],
+                           params[:composer_image_file]
 				rescue Exception => e
 					logger.error e.message
 					flash[:title] = params[:title]
 					flash[:description] = params[:description]
+                    flash[:composer_image_file] = params[:composer_image_file]
 					flash[:error] = e.message
 				end
 				redirect "/editor/work_detail/#{params[:id]}"

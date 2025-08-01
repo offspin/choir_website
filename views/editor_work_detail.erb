@@ -8,6 +8,21 @@
 		</input>
 		<p/>
 
+        <label for="composer_image_file">Composer image file</label><br/>
+        <select class="editor" id="composer_image_file" name="composer_image_file">
+          <option value="">None</option>
+          <% if @files.count > 0 %>
+            <% @files.each do |f| %>
+              <%= "<option " %>
+              <% if f == @work_detail['composer_image_file'] || f == flash[:composer_image_file] %>
+                <%= ' selected="selected" ' %>
+              <% end %>
+              <%= "value=\"#{f}\">#{f}</option>" %>
+            <% end %>
+          <% end %>
+        </select>
+        </p>
+
         <label for="description">Description:</label><br/>
         <textarea id="description" name="description" rows="6" cols="80">
             <%=flash[:description] ? flash[:description] : @work_detail['description']%>
