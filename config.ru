@@ -6,7 +6,7 @@ require 'mail'
 require 'pg'
 require 'bcrypt'
 require './database'
-require './app'
+require './site'
 require './editor'
 
 
@@ -14,12 +14,12 @@ THE_DB = Choirweb::Database.new
 
 the_editor = Choirweb::Editor.new
 
-the_app = Choirweb::App.new
+the_site = Choirweb::Site.new
 
 map '/editor' do
     run the_editor
 end
 
 map '/' do
-    run the_app
+    run the_site
 end

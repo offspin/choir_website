@@ -8,7 +8,7 @@ module Choirweb
     NEXT_REHEARSALS_COUNT = 1
 
 
-    class App < Sinatra::Base
+    class Site < Sinatra::Base
 
         enable :sessions, :logging, :raise_errors
         register Sinatra::Flash
