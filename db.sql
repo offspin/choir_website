@@ -556,10 +556,24 @@ ALTER TABLE ONLY public.work
 
 
 --
+-- Name: SEQUENCE concert_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.concert_sequence TO choirweb;
+
+
+--
 -- Name: TABLE concert; Type: ACL; Schema: public; Owner: -
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.concert TO choirweb;
+
+
+--
+-- Name: SEQUENCE news_flash_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.news_flash_sequence TO choirweb;
 
 
 --
@@ -591,6 +605,13 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.pg_stat_statements_info TO cho
 
 
 --
+-- Name: SEQUENCE programme_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.programme_sequence TO choirweb;
+
+
+--
 -- Name: TABLE programme; Type: ACL; Schema: public; Owner: -
 --
 
@@ -598,10 +619,24 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme TO choirweb;
 
 
 --
+-- Name: SEQUENCE programme_part_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.programme_part_sequence TO choirweb;
+
+
+--
 -- Name: TABLE programme_part; Type: ACL; Schema: public; Owner: -
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.programme_part TO choirweb;
+
+
+--
+-- Name: SEQUENCE rehearsal_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.rehearsal_sequence TO choirweb;
 
 
 --
@@ -626,6 +661,13 @@ GRANT SELECT ON TABLE public.system_config TO choirweb;
 
 
 --
+-- Name: SEQUENCE text_block_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.text_block_sequence TO choirweb;
+
+
+--
 -- Name: TABLE text_block; Type: ACL; Schema: public; Owner: -
 --
 
@@ -647,10 +689,24 @@ GRANT SELECT ON TABLE public.user_of_system TO choirweb;
 
 
 --
+-- Name: SEQUENCE venue_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.venue_sequence TO choirweb;
+
+
+--
 -- Name: TABLE venue; Type: ACL; Schema: public; Owner: -
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.venue TO choirweb;
+
+
+--
+-- Name: SEQUENCE work_sequence; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON SEQUENCE public.work_sequence TO choirweb;
 
 
 --
