@@ -93,17 +93,6 @@ CREATE TABLE public.news_flash (
 
 
 --
--- Name: person; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.person (
-    id integer NOT NULL,
-    name character varying(50) NOT NULL,
-    description text
-);
-
-
---
 -- Name: programme_sequence; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -187,18 +176,6 @@ CREATE TABLE public.rehearsal (
     updated timestamp without time zone DEFAULT now() NOT NULL,
     updated_by character varying(20) NOT NULL,
     CONSTRAINT cn_rehearsal_dates CHECK ((to_date >= from_date))
-);
-
-
---
--- Name: role; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.role (
-    name character varying(50) NOT NULL,
-    type character varying(50) NOT NULL,
-    priority integer NOT NULL,
-    person_id integer
 );
 
 
@@ -324,14 +301,6 @@ ALTER TABLE ONLY public.news_flash
 
 
 --
--- Name: person ak_person; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.person
-    ADD CONSTRAINT ak_person UNIQUE (name);
-
-
---
 -- Name: programme ak_programme; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -372,14 +341,6 @@ ALTER TABLE ONLY public.news_flash
 
 
 --
--- Name: person pk_person; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.person
-    ADD CONSTRAINT pk_person PRIMARY KEY (id);
-
-
---
 -- Name: programme pk_programme; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -401,14 +362,6 @@ ALTER TABLE ONLY public.programme_part
 
 ALTER TABLE ONLY public.rehearsal
     ADD CONSTRAINT pk_rehearsal PRIMARY KEY (id);
-
-
---
--- Name: role pk_role; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.role
-    ADD CONSTRAINT pk_role PRIMARY KEY (name);
 
 
 --
@@ -524,14 +477,6 @@ ALTER TABLE ONLY public.rehearsal
 
 
 --
--- Name: role fk_role_person; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.role
-    ADD CONSTRAINT fk_role_person FOREIGN KEY (person_id) REFERENCES public.person(id);
-
-
---
 -- Name: text_block fk_text_block_label; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -581,13 +526,6 @@ GRANT ALL ON SEQUENCE public.news_flash_sequence TO choirweb;
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.news_flash TO choirweb;
-
-
---
--- Name: TABLE person; Type: ACL; Schema: public; Owner: -
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.person TO choirweb;
 
 
 --
@@ -644,13 +582,6 @@ GRANT ALL ON SEQUENCE public.rehearsal_sequence TO choirweb;
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.rehearsal TO choirweb;
-
-
---
--- Name: TABLE role; Type: ACL; Schema: public; Owner: -
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.role TO choirweb;
 
 
 --
