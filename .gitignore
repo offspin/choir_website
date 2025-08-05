@@ -7,3 +7,4 @@ puma.*
 config/*
 log/*
 db/*
+public/images/content
