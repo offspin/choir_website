@@ -103,7 +103,7 @@ module Choirweb
 			work_detail = THE_DB.get_work(params[:id])
 			if work_detail.count > 0
 				@work_detail = work_detail[0]
-                @files = get_files('./public/images/content') 
+                @files = get_files('./public/images/content/composer') 
 				erb :editor_work_detail, :layout => :editor_layout
 			else
 				redirect '/editor/works'
@@ -193,7 +193,7 @@ module Choirweb
 			concert_details = THE_DB.get_concert(params[:id])
             @venues = THE_DB.get_all_venue
             @programme = THE_DB.get_programme(params[:id])
-            @files = get_files('./public/images/content') 
+            @files = get_files('./public/images/content/poster') 
 			if concert_details.count > 0
 				@concert_detail = concert_details[0]
 				erb :editor_concert_detail, :layout => :editor_layout
