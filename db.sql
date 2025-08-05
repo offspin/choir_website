@@ -477,6 +477,14 @@ ALTER TABLE ONLY public.rehearsal
 
 
 --
+-- Name: rehearsal fk_rehearsal_venue; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rehearsal
+    ADD CONSTRAINT fk_rehearsal_venue FOREIGN KEY (venue_id) REFERENCES public.venue(id);
+
+
+--
 -- Name: text_block fk_text_block_label; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
