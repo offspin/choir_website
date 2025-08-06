@@ -23,8 +23,10 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
+    observer (0.1.2)
     ostruct (0.6.3)
     pg (1.6.0-x86_64-linux)
+    pkg-config (1.6.2)
     puma (6.6.1)
       nio4r (~> 2.0)
     rack (3.2.0)
@@ -38,6 +40,9 @@ GEM
     rackup (2.2.1)
       rack (>= 3)
     recaptcha (5.20.1)
+    rmagick (6.1.2)
+      observer (~> 0.1)
+      pkg-config (~> 1.4)
     ruby2_keywords (0.0.5)
     sinatra (4.1.1)
       logger (>= 1.6.0)
@@ -63,6 +68,7 @@ DEPENDENCIES
   puma
   rackup
   recaptcha
+  rmagick
   sinatra
   sinatra-flash
 

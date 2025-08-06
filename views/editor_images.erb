@@ -1,0 +1,46 @@
+<form method="post" enctype="multipart/form-data">
+
+  <p>This page allows you to upload image files for posters
+  on the concert pages, or composers on the works pages.</p>
+
+  <p>Once uploaded, the files will be available in the drop-downs
+     for assignment in the editor pages depending on the type.</p>
+
+  <p>All image files <strong>must be</strong> in JPEG format.</p>
+
+  <p>Poster files <strong>must be</strong> 425 pixels wide and 600 pixels high.<p>
+
+  <p>Composer files can be up to 500 pixels wide and <strong>must be</strong> 200 pixels high.</p>
+
+  <div class="error"> <%= flash[:error] %> </div>
+
+  <label for="file_type">File Type</label><br/>
+  <select class="editor" id="file_type" name="file_type">
+    <option value="composer">Composer</option>
+    <option value="poster">Poster</option>
+  </select>
+  <p/>
+
+  <label for="file">File to upload</label><br/>
+  <table width="50%" class="editor">
+    <tr>
+      <td class="editor">
+        <input type="file" name="file" value="<%= flash[:filename] %>"/>
+      </td>
+    </tr>
+  </table>
+
+  <div class="editSection">
+    <table width="40%">
+      <tr>
+        <td width="50%" align="left">
+          <input type="submit" id="upload" name="save" value="Upload file"/>
+        </td>
+        <td width="50%" align="right">
+          <input type="submit" id="back" name="back" value="Back"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</form>

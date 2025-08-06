@@ -369,10 +369,60 @@ module Choirweb
 			end
 		end
 
+        get '/images' do
+          erb :editor_images, :layout => :editor_layout
+        end
+
+        post '/images' do
+          if params[:back]
+            redirect '/editor'
+          else
+            logger.info params
+            begin
+              unless params[:file] && 
+                (tempfile = params[:file][:tempfile]) && 
+                (name = params[:file][:filename])
+                raise 'No file selected'
+              end
+              info = Magick::Image.ping(tempfile.path).first
+              if params[:file_type] == "poster"
+                unless info.columns == 425 && info.rows == 600 
+                  raise "Poster file must be 425x600 pixels, file is #{info.columns}x#{info.rows}."
+                end
+              end
+              if params[:file_type] == "composer"
+                unless info.rows == 200
+                  raise "Composer file must be 200 pixels high, file is #{info.columns}x#{info.rows}."
+                end
+              end
+              save_file = "./public/images/content/#{params[:file_type]}/#{params[:file][:filename]}"
+              File.open(save_file, 'wb') do |sf|
+                sf.write (tempfile.read)
+              end
+              if params[:file_type] == 'poster'
+                tempfile.rewind
+                thumb_file = "./public/images/content/#{params[:file_type]}/thumbnail/#{params[:file][:filename]}" 
+                File.open(thumb_file, 'wb') do |tf|
+                  tf.write (tempfile.read)
+                end
+                thumb_image = Magick::Image.read(thumb_file).first
+                thumb_image.resize!(0.333)
+                thumb_image.write(thumb_file)
+              end
+            rescue Exception => e
+              logger.error e.message
+              flash[:error] = e.message
+              flash[:filename] = params[:file][:filename]
+              redirect '/editor/images'
+            end
+            redirect '/editor'
+          end
+        end
+
+
         def get_files dir
           (Dir.entries(dir).select {|f| File.file? File.join(dir, f)}).sort
         end
-            
 
     end
 
