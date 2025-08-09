@@ -169,38 +169,47 @@ module Choirweb
         def get_recent_works(work_count, max_per_concert)
 
             sql = <<-EOS
-
-              select p.id as programme_id
-               , p.description
-               , p.work_id
-                from (
-                  select id
-                       , concert_id
-                       , description
-                       , work_id
-                       , row_number() over (
-                              partition by concert_id
-                              order by 
-                                 coalesce(nullif(billing_order, 0), $2 + 1) 
-                         ) as history_order
-                    from programme
-                   where is_heading    =  'f'::boolean
-                     and is_interval   =  'f'::boolean
-                     and is_solo       =  'f'::boolean
-                 ) as p
-              inner join concert as c
-                on p.concert_id  =  c.id
-              where c.performed  <  current_date
-               and c.performed   >= current_date - interval '1 year'
-               and history_order <= $2
-              order by c.performed desc , p.history_order
-              limit $1;
+                select p.id as programme_id
+                     , p.description
+                     , p.work_id
+                     , p.history_order
+                  from (
+                           select id
+                                , concert_id
+                                , description
+                                , work_id
+                                , row_number() over (
+                                      partition by concert_id
+                                      order by billing_order
+                                  ) as history_order
+                             from (
+                                      select id
+                                           , concert_id
+                                           , description
+                                           , work_id
+                                           , case
+                                                 when billing_order = 0 then 1000
+                                                 else billing_order
+                                             end as billing_order
+                                        from programme
+                                       where is_heading      =  false
+                                         and is_interval     =  false
+                                         and is_solo         =  false
+                            ) as q
+                  ) as p
+                inner join concert as c
+                   on p.concert_id    =  c.id
+                where c.performed     <  current_date
+                  and c.performed     >= current_date - interval '1 year'
+                  and p.history_order <= $2
+                 order by c.performed desc, p.history_order
+                limit $1;
 
             EOS
 
             res = (@connection.exec sql, [ work_count, max_per_concert ]).to_a
 
-            end
+        end
 
 
         def get_concert(id)
