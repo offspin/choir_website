@@ -11,6 +11,8 @@ module Choirweb
     class Site < Sinatra::Base
 
         enable :sessions, :logging, :raise_errors
+        set :session_secret, ENV['SESSION_SECRET']
+
         register Sinatra::Flash
 
         Recaptcha.configure do |conf|

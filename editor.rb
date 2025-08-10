@@ -3,6 +3,8 @@ module Choirweb
     class Editor < Sinatra::Base
 
         enable :sessions, :logging, :raise_errors
+        set :session_secret, ENV['SESSION_SECRET']
+
         register Sinatra::Flash
 
         use Rack::Auth::Basic, "Restricted Area" do |username, password|
