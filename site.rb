@@ -31,10 +31,7 @@ module Choirweb
             @is_ipad = (user_agent =~ /ipad/i)
             @use_recaptcha = (ENV['RECAPTCHA_SITE_KEY'] != nil)
             
-
-            if THE_DB.connection.status != Database::CONNECTION_OK
-                THE_DB.reconnect
-            end
+            @the_db = Database.new
 
             get_recent_works
             get_next_concerts
@@ -44,6 +41,11 @@ module Choirweb
             
             response.headers['Cache-Control'] = 'no-cache'
 
+        end
+
+        after do
+            
+            @the_db.close
 
         end
 
@@ -173,7 +175,7 @@ module Choirweb
 
         def get_recent_works
 
-            @recent_works = THE_DB.get_recent_works RECENT_WORKS_COUNT, MAX_RECENT_PER_CONCERT
+            @recent_works = @the_db.get_recent_works RECENT_WORKS_COUNT, MAX_RECENT_PER_CONCERT
 
             @recent_works.each do |w|
                 w['htm_description'] = w['description'].gsub(/^(.*:)(.*)$/, '\1<em>\2</em>')
@@ -189,7 +191,7 @@ module Choirweb
        
         def get_next_concerts
 
-            @next_concerts = THE_DB.get_next_concerts NEXT_CONCERTS_COUNT
+            @next_concerts = @the_db.get_next_concerts NEXT_CONCERTS_COUNT
 
             @next_concerts.each do |c|
 
@@ -198,7 +200,7 @@ module Choirweb
                 c['htm_venue_name'] = c['venue_name']
                 c['htm_title'] = c['title']
 
-                billed_prog = THE_DB.get_billed_programme c['concert_id']
+                billed_prog = @the_db.get_billed_programme c['concert_id']
 
                 billed_prog.each do |bp|
 
@@ -233,7 +235,7 @@ module Choirweb
 
         def get_past_concerts
 
-            @past_concerts = THE_DB.get_past_concerts PAST_CONCERTS_COUNT_FULL
+            @past_concerts = @the_db.get_past_concerts PAST_CONCERTS_COUNT_FULL
             @past_concerts_count_short = PAST_CONCERTS_COUNT_SHORT
 
             @past_concerts.each do |c|
@@ -252,7 +254,7 @@ module Choirweb
 
         def get_concert(id)
 
-            concerts = THE_DB.get_concert id
+            concerts = @the_db.get_concert id
 
 
             if concerts.count > 0
@@ -274,7 +276,7 @@ module Choirweb
                         "<a href=\"#{@concert['venue_map_url']}\" target=\"_blank\">#{@concert['venue_name']}</a>"
                 end
 
-                programme = THE_DB.get_programme id
+                programme = @the_db.get_programme id
 
                 programme.each do |pr|
                     pr['htm_description'] = pr['description'].gsub(/^(.*:)(.*)$/, '\1<em>\2</em>')
@@ -284,7 +286,7 @@ module Choirweb
                             "<a href=\"/works/#{pr['work_id']}\">#{pr['htm_description']}</a>"
                     end
 
-                    parts = THE_DB.get_programme_parts pr['id']
+                    parts = @the_db.get_programme_parts pr['id']
                     pr['parts'] = parts
 
 
@@ -298,7 +300,7 @@ module Choirweb
 
         def get_concert_by_friendly_url(furl)
 
-            concert_id = THE_DB.get_concert_id_by_friendly_url(furl)
+            concert_id = @the_db.get_concert_id_by_friendly_url(furl)
 
             get_concert concert_id
 
@@ -306,7 +308,7 @@ module Choirweb
 
         def get_work(id)
 
-            works = THE_DB.get_work id
+            works = @the_db.get_work id
 
             if works.count > 0
                 @work = works[0]
@@ -316,7 +318,7 @@ module Choirweb
 
         def get_system_config_string(name)
             
-            configs = THE_DB.get_system_config(name)
+            configs = @the_db.get_system_config(name)
 
             if configs.count == 0
                 return nil
@@ -328,7 +330,7 @@ module Choirweb
 
         def get_news_flash
 
-            flashes = THE_DB.get_news_flash
+            flashes = @the_db.get_news_flash
 
             if flashes.count == 0
                 return nil
@@ -340,7 +342,7 @@ module Choirweb
 
         def get_next_rehearsals
 
-            @next_rehearsals = THE_DB.get_next_rehearsals NEXT_REHEARSALS_COUNT
+            @next_rehearsals = @the_db.get_next_rehearsals NEXT_REHEARSALS_COUNT
 
             @next_rehearsals.each do |r|
                 r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
@@ -356,7 +358,7 @@ module Choirweb
 
         def get_timetable
 
-            @timetable = THE_DB.get_timetable
+            @timetable = @the_db.get_timetable
 
             @timetable.each do |r|
                 r['long_date'] = DateTime.parse(r['rs_date_time']).strftime('%A %d %B %Y')
@@ -377,7 +379,7 @@ module Choirweb
         end
 
         def get_current_text_block (label)
-            rows = THE_DB.get_current_text_block label
+            rows = @the_db.get_current_text_block label
             content = rows.length == 0 ? '' : rows[0]['content']
         end
 

@@ -10,9 +10,6 @@ require './database'
 require './site'
 require './editor'
 
-
-THE_DB = Choirweb::Database.new
-
 the_editor = Choirweb::Editor.new
 
 the_site = Choirweb::Site.new

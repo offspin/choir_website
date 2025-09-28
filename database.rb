@@ -16,6 +16,10 @@ module Choirweb
             @connection = self.class.connect
         end
 
+        def close
+            @connection.close
+        end
+
 
         def self.connect
 
