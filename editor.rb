@@ -23,7 +23,7 @@ module Choirweb
             @the_db.close
         end
 
-        get '/' do
+        get %r{(\/|)} do
             erb :editor_index, :layout => :editor_layout
         end
 
