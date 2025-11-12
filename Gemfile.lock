@@ -3,9 +3,10 @@ GEM
   specs:
     base64 (0.3.0)
     bcrypt (3.1.20)
-    date (3.4.1)
+    date (3.5.0)
     logger (1.7.0)
-    mail (2.8.1)
+    mail (2.9.0)
+      logger
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -22,15 +23,15 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    nio4r (2.7.4)
+    nio4r (2.7.5)
     observer (0.1.2)
     ostruct (0.6.3)
     pg (1.6.2-x86_64-linux)
     pkg-config (1.6.4)
-    puma (7.0.4)
+    puma (7.1.0)
       nio4r (~> 2.0)
-    rack (3.2.3)
-    rack-protection (4.2.0)
+    rack (3.2.4)
+    rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -44,17 +45,17 @@ GEM
       observer (~> 0.1)
       pkg-config (~> 1.4)
     ruby2_keywords (0.0.5)
-    sinatra (4.2.0)
+    sinatra (4.2.1)
       logger (>= 1.6.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
-      rack-protection (= 4.2.0)
+      rack-protection (= 4.2.1)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
     tilt (2.6.1)
-    timeout (0.4.3)
+    timeout (0.4.4)
 
 PLATFORMS
   x86_64-linux
@@ -73,7 +74,7 @@ DEPENDENCIES
   sinatra-flash
 
 RUBY VERSION
-   ruby 3.3.8p144
+   ruby 3.4.7p58
 
 BUNDLED WITH
-   2.6.8
+   2.6.9
