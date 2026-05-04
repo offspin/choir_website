@@ -14,7 +14,7 @@ GEM
     mini_mime (1.1.5)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
-    net-imap (0.6.3)
+    net-imap (0.6.4)
       date
       net-protocol
     net-pop (0.1.2)
@@ -55,7 +55,7 @@ GEM
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
     tilt (2.7.0)
-    timeout (0.6.0)
+    timeout (0.6.1)
 
 PLATFORMS
   x86_64-linux
