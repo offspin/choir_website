@@ -72,7 +72,7 @@ DEPENDENCIES
   sinatra-flash
 
 RUBY VERSION
-   ruby 3.4.7p58
+   ruby 4.0.5p0
 
 BUNDLED WITH
    2.6.9
